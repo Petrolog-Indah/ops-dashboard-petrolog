@@ -119,7 +119,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
 
         {/* Value Display - Positioned relative to the SVG pivot */}
         <div className="absolute left-0 right-0 bottom-0 flex flex-col items-center">
-            <span className="text-3xl font-black text-slate-900 tabular-nums">{value}%</span>
+            <span className="text-2xl font-medium font-black text-slate-900 tabular-nums">{value}%</span>
         </div>
       </div>
       

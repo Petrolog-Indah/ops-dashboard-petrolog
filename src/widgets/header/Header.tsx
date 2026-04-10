@@ -3,7 +3,7 @@ import logo from '../../assets/logo_petrolog.png';
 
 export const DashboardHeader: React.FC = () => {
   return (
-    <header className="flex flex-col md:flex-row items-center justify-between p-6 bg-white border-b border-slate-200 shadow-sm gap-4 mb-6">
+    <header className="flex bg-white flex-col md:flex-row items-center justify-between p-6 bg-white border-b border-slate-200 shadow-sm gap-4 mb-6">
       <div className="flex flex-col">
         <div className="flex items-center justify-center gap-3">
           <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-sm">

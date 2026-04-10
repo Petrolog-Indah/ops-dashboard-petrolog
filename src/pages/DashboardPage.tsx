@@ -43,7 +43,7 @@ const DashboardPage: React.FC = () => {
             <KpiGrid items={filteredData} />
             
             {/* Footer Control Bar */}
-            <div className="p-6 pt-0">
+            {/* <div className="p-6 pt-0">
               <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex flex-wrap items-center gap-4">
                   <span className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Rows to display</span>
@@ -63,11 +63,11 @@ const DashboardPage: React.FC = () => {
                   <span className="cursor-pointer hover:text-emerald-600 transition-colors">Settings</span>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
-        <DapurDataSidebar />
+        {/* <DapurDataSidebar /> */}
       </main>
 
       <footer className="h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-inner" />

@@ -29,9 +29,9 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
         >
           <defs>
             <linearGradient id="gaugeGradientLight" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#dc2626" /> {/* Red 0% */}
+              <stop offset="0%" stopColor="#059669 " /> {/* Red 0% */}
               <stop offset="50%" stopColor="#d97706" /> {/* Amber 50% */}
-              <stop offset="100%" stopColor="#059669" /> {/* Emerald 100% */}
+              <stop offset="100%" stopColor="#dc2626" /> {/* Emerald 100% */}
             </linearGradient>
           </defs>
 

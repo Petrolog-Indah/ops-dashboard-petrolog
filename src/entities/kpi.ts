@@ -7,6 +7,7 @@ export interface KpiItem {
   label: string;
   value: number;
   subLabel?: string;
+  isRealTime?: boolean;
   category: 'ALL' | 'SOP' | 'QHSE' | 'Performance Effectiveness' | 'Efficiency & Productivity';
 }
 
@@ -21,7 +22,7 @@ export const DASHBOARD_KPI_DATA: KpiItem[] = [
   // --- KATEGORI: QHSE ---
   { id: '3', label: 'Staff Healthy Result', value: 94, category: 'QHSE' },
   { id: '4', label: 'Staff Negative Result', value: 98, category: 'QHSE' },
-  { id: '5', label: '0 Accident Rate', value: 0, category: 'QHSE' },
+  // { id: '5', label: '0 Accident Rate', value: 0, category: 'QHSE' },
   { id: '6', label: 'LTSI (Hours)', value: 0, category: 'QHSE' },
   
   // --- KATEGORI: PERFORMANCE ---
@@ -44,7 +45,7 @@ export const DASHBOARD_KPI_DATA: KpiItem[] = [
   { id: '21', label: 'Average Man Hours', value: 40, category: 'Efficiency & Productivity' },
   { id: '22', label: 'Fuel Efficiency Km/L', value: 34, subLabel: '0.34', category: 'Efficiency & Productivity' },
   { id: '23', label: 'Oil Efficiency Km/L', value: 10, subLabel: '0.10', category: 'Efficiency & Productivity' },
-  { id: '24', label: 'Budget Efficiency', value: 0, category: 'Efficiency & Productivity' },
+  // { id: '24', label: 'Budget Efficiency', value: 0, category: 'Efficiency & Productivity' },
 ];
 
 /**
@@ -59,7 +60,7 @@ export const DETAILED_KPI_DATA: KpiItem[] = [
   // Dummy QHSE
   { id: 'qhse-d1', label: 'Staff Healthy Result', value: 100, category: 'QHSE' },
   { id: 'qhse-d2', label: 'Staff Negative Result', value: 85, category: 'QHSE' },
-  { id: 'qhse-d3', label: '0 Accident Rate', value: 85, category: 'QHSE' },
+  // { id: 'qhse-d3', label: '0 Accident Rate', value: 85, category: 'QHSE' },
   { id: 'qhse-d4', label: 'LTSI (Hours)', value: 85, category: 'QHSE' },
   { id: 'qhse-d5', label: 'License Compliance', value: 85, category: 'QHSE' },
   { id: 'qhse-d6', label: 'Unit Valid Lincense', value: 85, category: 'QHSE' },
@@ -82,5 +83,5 @@ export const DETAILED_KPI_DATA: KpiItem[] = [
   { id: 'eff-d4', label: 'Average Man Hours', value: 77, category: 'Efficiency & Productivity' },
   { id: 'eff-d5', label: 'Fuel Efficiency Km/L', value: 77, category: 'Efficiency & Productivity' },
   { id: 'eff-d6', label: 'Oil Efficiency Km/L', value: 77, category: 'Efficiency & Productivity' },
-  { id: 'eff-d7', label: 'Budget Efficiency', value: 77, category: 'Efficiency & Productivity' },
+  // { id: 'eff-d7', label: 'Budget Efficiency', value: 77, category: 'Efficiency & Productivity' },
 ];

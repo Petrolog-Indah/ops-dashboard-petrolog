@@ -4,12 +4,14 @@ interface GaugeChartProps {
   value: number; // 0 to 100
   label: string;
   subLabel?: string;
+  isRealTime?: boolean;
 }
 
 export const GaugeChart: React.FC<GaugeChartProps> = ({ 
   value, 
   label, 
-  subLabel 
+  subLabel,
+  isRealTime
 }) => {
   const radius = 70;
   const strokeWidth = 14; 
@@ -20,8 +22,21 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   const rotation = (value / 100) * 180 - 90; 
   const strokeDashoffset = circumference - (value / 100) * circumference;
 
+  const isCritical = value <= 30;
+
   return (
-    <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-100 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1 group w-full h-full">
+    <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border transition-all hover:shadow-md hover:-translate-y-1 group w-full h-full relative overflow-hidden
+      ${isCritical 
+        ? 'border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)] animate-[pulse_2s_infinite]' 
+        : isRealTime === true ? 'border-green-500 [0_0_20px_rgba(239,68,68,0.3)]' : 'border-slate-100 shadow-sm'
+      }`}
+    >
+      {isCritical && (
+        <div className="absolute top-2 right-2">
+            <div className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
+        </div>
+      )}
+
       <div className="relative w-full aspect-[3/3] max-w-[220px] flex items-center justify-center">
         <svg
           viewBox={`0 0 ${radius * 2} ${radius + 15}`}
@@ -29,7 +44,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
         >
           <defs>
             <linearGradient id="gaugeGradientLight" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#059669 " /> {/* Red 0% */}
+              <stop offset="0%" stopColor="#059669" /> {/* Red 0% */}
               <stop offset="50%" stopColor="#d97706" /> {/* Amber 50% */}
               <stop offset="100%" stopColor="#dc2626" /> {/* Emerald 100% */}
             </linearGradient>
@@ -119,15 +134,16 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
 
         {/* Value Display - Positioned relative to the SVG pivot */}
         <div className="absolute left-0 right-0 bottom-0 flex flex-col items-center">
-            <span className="text-2xl font-medium font-black text-slate-900 tabular-nums">{value}%</span>
+            <span className={`text-2xl font-medium font-black tabular-nums ${isCritical ? 'text-red-700' : 'text-slate-900'}`}>{value}%</span>
         </div>
       </div>
       
       <div className="mt-2 text-center px-1">
-        <h3 className="text-[11px] font-black text-slate-800 group-hover:text-emerald-700 transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center">
+        <h3 className={`text-[11px] font-black transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center 
+          ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
           {label}
         </h3>
-        {subLabel && <p className="text-[10px] text-slate-400 font-bold mt-1 text-center">{subLabel}</p>}
+        {subLabel && <p className={`text-[10px] font-bold mt-1 text-center ${isCritical ? 'text-red-400' : 'text-slate-400'}`}>{subLabel}</p>}
       </div>
     </div>
   );

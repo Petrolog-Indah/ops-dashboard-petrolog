@@ -5,11 +5,17 @@ import { KpiGrid } from '../widgets/kpiGrid/KpiGrid';
 import { DashboardFilters } from '../widgets/dashboardFilters/DashboardFilters';
 import { DASHBOARD_KPI_DATA, DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
+import { useCCTVStats } from '../entities/cctv/hooks/useCCTVStats';
+import { useJettyStats } from '../entities/cctv/hooks/useJettyStats';
 
 type FilterType = KpiItem['category'] | 'ALL';
 
 const DashboardPage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('ALL');
+  const [selectedMonth, setSelectedMonth] = useState('April');
+
+  const { stats: cctvStats } = useCCTVStats();
+  const { stats: jettyStats } = useJettyStats();
 
   /**
    * LOGIKA FILTERING
@@ -17,17 +23,58 @@ const DashboardPage: React.FC = () => {
    * Jika Kategori Tertentu (SOP, dll): Tampilkan data rincian (dummy).
    */
   const filteredData = useMemo(() => {
+    let result: KpiItem[] = [];
+    
     if (activeFilter === 'ALL') {
-      return DASHBOARD_KPI_DATA;
+      result = [...DASHBOARD_KPI_DATA];
+    } else {
+      // Filter dari data DETAILED berdasarkan kategori yang dipilih
+      result = DETAILED_KPI_DATA.filter(item => item.category === activeFilter);
+    }
+
+    // Inject live CCTV stats if available
+    if (cctvStats) {
+      result = result.map(item => {
+        if (item.label === 'CCTV Online') {
+          return {
+            ...item,
+            value: Math.round(cctvStats.percentage),
+            subLabel: `${cctvStats.online} / ${cctvStats.total} Online`,
+            isRealTime: true
+          };
+        }
+        return item;
+      });
+    }
+
+    // Inject Jetty stats based on selected month
+    if (jettyStats && jettyStats.data) {
+      const monthData = jettyStats.data.find(d => d.bulan === selectedMonth);
+      if (monthData) {
+        result = result.map(item => {
+          if (item.label === 'Billed Jetty MTD') {
+            return {
+              ...item,
+              value: monthData.billing_percentage,
+              subLabel: `${monthData.tertagih} / ${monthData.bl} billed in ${selectedMonth}`,
+              isRealTime: true
+            };
+          }
+          return item;
+        });
+      }
     }
     
-    // Filter dari data DETAILED berdasarkan kategori yang dipilih
-    return DETAILED_KPI_DATA.filter(item => item.category === activeFilter);
-  }, [activeFilter]);
+    return result;
+  }, [activeFilter, cctvStats, jettyStats, selectedMonth]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-emerald-500/30">
-      <DashboardHeader />
+      <DashboardHeader 
+        selectedMonth={selectedMonth} 
+        onMonthChange={setSelectedMonth} 
+        lastUpdate={jettyStats?.lastUpdate}
+      />
 
       <main className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         <div className="flex-1 overflow-y-auto scrollbar-hide">

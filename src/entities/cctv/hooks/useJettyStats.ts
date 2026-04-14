@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { JettyStats } from '../model/types';
 import { fetchJettyStats } from '../api/jettyApi';
+import { POLLING_CONFIG } from '../../../shared/config/polling';
 
-export function useJettyStats(pollingInterval = 300000) { // Default 5 minutes
+export function useJettyStats(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes
   const [stats, setStats] = useState<JettyStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);

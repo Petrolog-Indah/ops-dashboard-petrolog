@@ -28,7 +28,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             Ops Dashboard <span className="text-emerald-600">2026</span>
           </h1>
         </div>
-        <p className="text-slate-500 text-sm font-medium ml-13 mt-1">24 Kriteria Dashboard • Operational Excellence</p>
+        <p className="text-slate-500 text-sm font-medium ml-13 mt-1">PT. Petrolog Indah • All Operational Dashboard</p>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">

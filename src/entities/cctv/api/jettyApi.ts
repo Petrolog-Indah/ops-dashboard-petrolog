@@ -1,6 +1,6 @@
 import type { JettyStats } from '../model/types';
 
-const BASE_URL = 'https://dash.petrolog.my.id'; // Matches the integration guide example
+const BASE_URL = import.meta.env.VITE_API_URL; // Matches the integration guide example
 
 export async function fetchJettyStats(): Promise<JettyStats> {
     const response = await fetch(`${BASE_URL}/api/jms/stats/2026`);

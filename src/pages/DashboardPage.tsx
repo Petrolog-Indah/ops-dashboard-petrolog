@@ -7,15 +7,46 @@ import { DASHBOARD_KPI_DATA, DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
 import { useCCTVStats } from '../entities/cctv/hooks/useCCTVStats';
 import { useJettyStats } from '../entities/cctv/hooks/useJettyStats';
+import { useValidLicense } from '../entities/cctv/hooks/useValidLicense';
+import { useAvailability } from '../entities/cctv/hooks/useAvailability';
+import { useGeofence } from '../entities/cctv/hooks/useGeofence';
+import { fetchMetricHistory } from '../shared/api/historicalApi';
 
 type FilterType = KpiItem['category'] | 'ALL';
 
+const monthName = [ 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember' ];
+
 const DashboardPage: React.FC = () => {
+  const month = new Date().getMonth();
+  const currentMonth = monthName[month];
   const [activeFilter, setActiveFilter] = useState<FilterType>('ALL');
-  const [selectedMonth, setSelectedMonth] = useState('April');
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 
   const { stats: cctvStats } = useCCTVStats();
   const { stats: jettyStats } = useJettyStats();
+  const { stats: validLicenseStats } = useValidLicense();
+  const { stats: availabilityStats } = useAvailability();
+  const { stats: geofenceStats } = useGeofence();
+
+  // State untuk menyimpan data historikal dari NestJS backend saat bulan sebelumnya dipilih
+  const [historicalData, setHistoricalData] = useState<any[]>([]);
+  
+  React.useEffect(() => {
+    // Apabila bulan yang dipilih BUKAN bulan berjalan (April 2026), maka ambil dari Backend NestJS
+    if (selectedMonth !== 'April') {
+      // Mockup integration: ambil data historical secara paralel
+      Promise.all([
+        fetchMetricHistory('CCTV Online'),
+        fetchMetricHistory('Billed Jetty MTD'),
+        fetchMetricHistory('Unit Valid Lincense'),
+        fetchMetricHistory('Within Geofence')
+      ]).then(res => {
+         setHistoricalData(res.flat());
+      });
+    } else {
+      setHistoricalData([]);
+    }
+  }, [selectedMonth]);
 
   /**
    * LOGIKA FILTERING
@@ -56,7 +87,7 @@ const DashboardPage: React.FC = () => {
             return {
               ...item,
               value: monthData.billing_percentage,
-              subLabel: `${monthData.tertagih} / ${monthData.bl} billed in ${selectedMonth}`,
+              subLabel: `${monthData.tertagih} / ${monthData.bl} Billed`,
               isRealTime: true
             };
           }
@@ -64,9 +95,78 @@ const DashboardPage: React.FC = () => {
         });
       }
     }
+
+    // Inject Valid Lincense stats based on selected month
+    if (validLicenseStats) {
+      result = result.map(item => {
+        if (item.label === 'Unit Valid Lincense') {
+          return {
+            ...item,
+            value: Math.round(validLicenseStats.percentage_valid),
+            subLabel: `${validLicenseStats.valid_armada} / ${validLicenseStats.total_armada} Valid Lincense`,
+            isRealTime: true
+          };
+        }
+        return item;
+      });
+    }
+    // Inject Geofence stats based on selected month
+    if (geofenceStats) {
+      result = result.map(item => {
+        if (item.label === 'Within Geofence') {
+          return {
+            ...item,
+            value: Math.round(geofenceStats.percentage),
+            subLabel: `${geofenceStats.units_in_zone} / ${geofenceStats.total_units} Units In Zone`,
+            isRealTime: true
+          };
+        }
+        return item;
+      });
+    }
+
+    // Inject Availability stats based on selected month
+    if (availabilityStats) {
+      result = result.map(item => {
+        if (item.label === 'Commercial Rate') {
+          return {
+            ...item,
+            value: Math.round(availabilityStats.commercial_rate),
+            subLabel: `${availabilityStats.on_job + availabilityStats.standby} / ${availabilityStats.total} Unit Report`,
+            isRealTime: true
+          };
+        }
+        if (item.label === 'Utilisation Rate') {
+          return {
+            ...item,
+            value: Math.round(availabilityStats.utilisation_rate),
+            subLabel: `${availabilityStats.on_job} / ${availabilityStats.total} Unit Report`,
+            isRealTime: true
+          };
+        }
+        return item;
+      });
+    }
+
+    if (historicalData.length > 0) {
+      result = result.map(item => {
+        const history = historicalData.find(h => h.metric_name === item.label);
+
+        if (history) {
+          return {
+            ...item,
+            value: history.value,
+            subLabel: history.sub_label,
+            isRealTime: false
+          };
+        }
+
+        return item;
+      });
+    }
     
     return result;
-  }, [activeFilter, cctvStats, jettyStats, selectedMonth]);
+  }, [activeFilter, cctvStats, jettyStats, validLicenseStats, geofenceStats, availabilityStats, selectedMonth]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-emerald-500/30">

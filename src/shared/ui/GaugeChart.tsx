@@ -27,8 +27,8 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   return (
     <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border transition-all hover:shadow-md hover:-translate-y-1 group w-full h-full relative overflow-hidden
       ${isCritical 
-        ? 'border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)] animate-[pulse_2s_infinite]' 
-        : isRealTime === true ? 'border-green-500 [0_0_20px_rgba(239,68,68,0.3)]' : 'border-slate-100 shadow-sm'
+        ? 'border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.1)] animate-[pulse_2s_infinite]' 
+        : isRealTime === true ? 'border-green-500 shadow-[0_0_20px_rgba(16,185,129,0.1)]' : 'border-slate-100 shadow-sm'
       }`}
     >
       {isCritical && (

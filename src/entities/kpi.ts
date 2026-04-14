@@ -27,14 +27,14 @@ export const DASHBOARD_KPI_DATA: KpiItem[] = [
   
   // --- KATEGORI: PERFORMANCE ---
   { id: '7', label: 'License Compliance', value: 90, category: 'Performance Effectiveness' },
-  { id: '8', label: 'Unit Valid Lincense', value: 48, category: 'Performance Effectiveness' },
+  { id: '8', label: 'Unit Valid Lincense', value: 0, category: 'Performance Effectiveness' },
   { id: '9', label: 'Certification Rate', value: 96, category: 'Performance Effectiveness' },
-  { id: '10', label: 'CCTV Online', value: 100, category: 'Performance Effectiveness' },
+  { id: '10', label: 'CCTV Online', value: 0, category: 'Performance Effectiveness' },
   { id: '11', label: 'Dashcam Installed', value: 0, category: 'Performance Effectiveness' },
   { id: '12', label: 'Dashcam Online/Active', value: 0, category: 'Performance Effectiveness' },
-  { id: '13', label: 'Commercial Rate', value: 44, category: 'Performance Effectiveness' },
+  { id: '13', label: 'Commercial Rate', value: 0, category: 'Performance Effectiveness' },
   { id: '14', label: 'Fit Rate', value: 0, category: 'Performance Effectiveness' },
-  { id: '15', label: 'Utilisation Rate', value: 67, category: 'Performance Effectiveness' },
+  { id: '15', label: 'Utilisation Rate', value: 0, category: 'Performance Effectiveness' },
   { id: '16', label: 'Within Geofence', value: 0, category: 'Performance Effectiveness' },
   { id: '17', label: 'Billed Jetty MTD', value: 0, category: 'Performance Effectiveness' },
   
@@ -63,16 +63,16 @@ export const DETAILED_KPI_DATA: KpiItem[] = [
   // { id: 'qhse-d3', label: '0 Accident Rate', value: 85, category: 'QHSE' },
   { id: 'qhse-d4', label: 'LTSI (Hours)', value: 85, category: 'QHSE' },
   { id: 'qhse-d5', label: 'License Compliance', value: 85, category: 'QHSE' },
-  { id: 'qhse-d6', label: 'Unit Valid Lincense', value: 85, category: 'QHSE' },
+  { id: 'qhse-d6', label: 'Unit Valid Lincense', value: 0, category: 'QHSE' },
   { id: 'qhse-d7', label: 'Certification Rate', value: 85, category: 'QHSE' },
-  { id: 'qhse-d8', label: 'CCTV Online', value: 85, category: 'QHSE' },
+  { id: 'qhse-d8', label: 'CCTV Online', value: 0, category: 'QHSE' },
   { id: 'qhse-d9', label: 'Dashcam Installed', value: 85, category: 'QHSE' },
   { id: 'qhse-d10', label: 'Dashcam Online/Active', value: 85, category: 'QHSE' },
   
   // Dummy Performance
-  { id: 'perf-d1', label: 'Commercial Rate', value: 62, category: 'Performance Effectiveness' },
+  { id: 'perf-d1', label: 'Commercial Rate', value: 0, category: 'Performance Effectiveness' },
   { id: 'perf-d2', label: 'Fit Rate', value: 91, category: 'Performance Effectiveness' },
-  { id: 'perf-d3', label: 'Utilisation Rate', value: 91, category: 'Performance Effectiveness' },
+  { id: 'perf-d3', label: 'Utilisation Rate', value: 0, category: 'Performance Effectiveness' },
   { id: 'perf-d4', label: 'Billed Jetty MTD', value: 91, category: 'Performance Effectiveness' },
   { id: 'perf-d5', label: 'Within Geofence', value: 91, category: 'Performance Effectiveness' },
   

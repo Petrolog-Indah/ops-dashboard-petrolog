@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../../assets/logo_petrolog.png';
 
 interface DashboardHeaderProps {
@@ -10,12 +10,31 @@ interface DashboardHeaderProps {
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ 
   selectedMonth, 
   onMonthChange,
-  lastUpdate
 }) => {
   const months = [
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
   ];
+
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentDateTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formattedDate = currentDateTime.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
+  const formattedTime = currentDateTime.toLocaleTimeString('id-ID', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
 
   return (
     <header className="flex bg-white flex-col md:flex-row items-center justify-between p-6 bg-white border-b border-slate-200 shadow-sm gap-4 mb-6">
@@ -46,8 +65,8 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         </div>
         
         <div className="text-right">
-          <div className="text-slate-900 font-bold text-lg">{lastUpdate || 'Friday, 10 April 2026'}</div>
-          <div className="text-emerald-600 text-[10px] font-bold uppercase tracking-widest">Real-time Synchronization</div>
+          <div className="text-slate-900 font-bold text-lg">{formattedDate}</div>
+          <div className="text-emerald-600 text-[10px] font-bold uppercase tracking-widest">{formattedTime} • Real-time Synchronization</div>
         </div>
       </div>
     </header>

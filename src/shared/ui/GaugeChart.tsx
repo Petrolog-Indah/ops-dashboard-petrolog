@@ -13,16 +13,27 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   subLabel,
   isRealTime
 }) => {
-  const radius = 70;
-  const strokeWidth = 14; 
-  const normalizedRadius = radius - strokeWidth / 2;
-  const circumference = normalizedRadius * Math.PI; 
+  const radius = 100;
+  const strokeWidth = 32; 
+  const normalizedRadius = radius - strokeWidth / 2; // 84
 
   // Needle rotation: 0% is at -90deg, 100% is at 90deg (relative to 12 o'clock)
   const rotation = (value / 100) * 180 - 90; 
-  const strokeDashoffset = circumference - (value / 100) * circumference;
 
   const isCritical = value <= 30;
+
+  const segments = [
+    { color: '#ef4444', label: 'Very Low', text: '#ffffff' },
+    { color: '#f97316', label: 'Low', text: '#ffffff' },
+    { color: '#fcd34d', label: 'Moderate', text: '#111827' },
+    { color: '#fef08a', label: 'Good', text: '#111827' },
+    { color: '#86efac', label: 'High', text: '#111827' },
+    { color: '#22c55e', label: 'Very High', text: '#ffffff' }
+  ];
+
+  const gapAngle = 2.5; 
+  const totalGapAngle = gapAngle * (segments.length - 1);
+  const segmentAngle = (180 - totalGapAngle) / segments.length;
 
   return (
     <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border transition-all hover:shadow-md hover:-translate-y-1 group w-full h-full relative overflow-hidden
@@ -32,113 +43,88 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
       }`}
     >
       {isCritical && (
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-2 right-3">
             <div className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
         </div>
       )}
 
-      <div className="relative w-full aspect-[3/3] max-w-[220px] flex items-center justify-center">
+      <h3 className={`text-[12px] font-semibold transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center text-center
+        ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
+        {segments.map((segment, i) => {
+          // Calculate which segment the needle is in based on value
+          const activeIndex = Math.min(
+            Math.floor((Math.max(0, Math.min(100, value)) / 100) * segments.length), 
+            segments.length - 1
+          );
+          
+          if (i !== activeIndex) return null;
+          
+          return (
+            <span key={i} style={{ color: segment.color }}>{segment.label}</span>
+          )
+        })}
+      </h3>
+
+      <div className="relative w-full max-w-[260px] flex items-center justify-center mt-2">
+
         <svg
           viewBox={`0 0 ${radius * 2} ${radius + 15}`}
-          className="w-full h-auto"
+          className="w-full h-auto drop-shadow-sm"
         >
-          <defs>
-            <linearGradient id="gaugeGradientLight" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#059669" /> {/* Red 0% */}
-              <stop offset="50%" stopColor="#d97706" /> {/* Amber 50% */}
-              <stop offset="100%" stopColor="#dc2626" /> {/* Emerald 100% */}
-            </linearGradient>
-          </defs>
-
-          {/* Background Track - Bridge shape */}
-          <circle
-            stroke="#f1f5f9"
-            fill="transparent"
-            strokeWidth={strokeWidth}
-            strokeDasharray={circumference + ' ' + circumference}
-            style={{ 
-                strokeDashoffset: 0,
-                transform: `rotate(-180deg)`,
-                transformOrigin: `${radius}px ${radius}px`
-            }}
-            strokeLinecap="round"
-            r={normalizedRadius}
-            cx={radius}
-            cy={radius}
-          />
-          
-          {/* Progress Bar */}
-          <circle
-            stroke="url(#gaugeGradientLight)"
-            fill="transparent"
-            strokeWidth={strokeWidth}
-            strokeDasharray={circumference + ' ' + circumference}
-            style={{ 
-              strokeDashoffset,
-              transition: 'stroke-dashoffset 1s ease-in-out',
-              transform: `rotate(-180deg)`,
-              transformOrigin: `${radius}px ${radius}px`,
-              opacity: value > 0 ? 1 : 0
-            }}
-            strokeLinecap="round"
-            r={normalizedRadius}
-            cx={radius}
-            cy={radius}
+          {/* Inner Light Background */}
+          <path 
+            d={`M ${radius - normalizedRadius + strokeWidth/2} ${radius} A ${normalizedRadius - strokeWidth/2} ${normalizedRadius - strokeWidth/2} 0 0 1 ${radius + normalizedRadius - strokeWidth/2} ${radius}`} 
+            fill="#f8fafc" 
           />
 
-          {/* Scale Ticks */}
-          {[0, 25, 50, 75, 100].map((tick) => {
-            const angle = (tick / 100) * 180;
-            const x = radius + (radius - 20) * Math.cos((angle - 180) * (Math.PI / 180));
-            const y = radius + (radius - 20) * Math.sin((angle - 180) * (Math.PI / 180));
+          {segments.map((segment, i) => {
+            const startAngle = 180 + i * (segmentAngle + gapAngle);
+            const endAngle = startAngle + segmentAngle;
+            
+            const startRad = startAngle * Math.PI / 180;
+            const endRad = endAngle * Math.PI / 180;
+            
+            const x1 = radius + normalizedRadius * Math.cos(startRad);
+            const y1 = radius + normalizedRadius * Math.sin(startRad);
+            
+            const x2 = radius + normalizedRadius * Math.cos(endRad);
+            const y2 = radius + normalizedRadius * Math.sin(endRad);
+
+            const pathData = `M ${x1} ${y1} A ${normalizedRadius} ${normalizedRadius} 0 0 1 ${x2} ${y2}`;
+
             return (
-              <text
-                key={tick}
-                x={x}
-                y={y}
-                fontSize="7"
-                fill="#94a3b8"
-                textAnchor="middle"
-                alignmentBaseline="middle"
-                className="font-bold tabular-nums"
-              >
-                {tick}
-              </text>
+              <path
+                key={i}
+                d={pathData}
+                fill="none"
+                stroke={segment.color}
+                strokeWidth={strokeWidth}
+              />
             );
           })}
 
-          {/* Pivot Point Circle (Base of Needle) */}
-          <circle
-            cx={radius}
-            cy={radius}
-            r="5"
-            fill="#1e293b"
-          />
-
-          {/* SVG Needle for perfect alignment */}
-          <line
-            x1={radius}
-            y1={radius}
-            x2={radius}
-            y2={radius - 45}
-            stroke="#1e293b"
-            strokeWidth="3"
-            strokeLinecap="round"
-            style={{
-                transform: `rotate(${rotation}deg)`,
-                transformOrigin: `${radius}px ${radius}px`,
-                transition: 'transform 1s ease-in-out'
-            }}
-          />
+          {/* Needle Base Knob & Needle */}
+          <g style={{
+              transform: `rotate(${rotation}deg)`,
+              transformOrigin: `${radius}px ${radius}px`,
+              transition: 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}>
+            <polygon
+              points={`${radius - 3.5},${radius} ${radius + 3.5},${radius} ${radius},${radius - normalizedRadius + 18}`}
+              fill="#1e293b"
+            />
+            <circle cx={radius} cy={radius} r="7" fill="#1e293b" />
+            <circle cx={radius} cy={radius} r="2.5" fill="#f8fafc" />
+          </g>
         </svg>
 
-        {/* Value Display - Positioned relative to the SVG pivot */}
+        {/* Value Display */}
         <div className="absolute left-0 right-0 bottom-0 flex flex-col items-center">
-            <span className={`text-2xl font-medium font-black tabular-nums ${isCritical ? 'text-red-700' : 'text-slate-900'}`}>{value}%</span>
+            <span className={`text-2xl font-black tabular-nums translate-y-[30px] ${isCritical ? 'text-red-700' : 'text-slate-900'}`}>{value}%</span>
         </div>
       </div>
       
-      <div className="mt-2 text-center px-1">
+      <div className="mt-7 text-center px-1 z-10 relative">
         <h3 className={`text-[11px] font-black transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center 
           ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
           {label}

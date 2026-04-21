@@ -26,12 +26,12 @@ export const DASHBOARD_KPI_DATA: KpiItem[] = [
   { id: '6', label: 'LTSI (Hours)', value: 0, category: 'QHSE' },
   
   // --- KATEGORI: PERFORMANCE ---
-  { id: '7', label: 'License Compliance', value: 90, category: 'Performance Effectiveness' },
-  { id: '8', label: 'Unit Valid Lincense', value: 0, category: 'Performance Effectiveness' },
+  { id: '7', label: 'Legal Compliance', value: 90, category: 'Performance Effectiveness' },
+  { id: '8', label: 'Unit Valid License', value: 0, category: 'Performance Effectiveness' },
   { id: '9', label: 'Certification Rate', value: 96, category: 'Performance Effectiveness' },
   { id: '10', label: 'CCTV Online', value: 0, category: 'Performance Effectiveness' },
-  { id: '11', label: 'Dashcam Installed', value: 0, category: 'Performance Effectiveness' },
-  { id: '12', label: 'Dashcam Online/Active', value: 0, category: 'Performance Effectiveness' },
+  { id: '11', label: 'Dashcam Installed', value: 50, category: 'Performance Effectiveness' },
+  { id: '12', label: 'Dashcam Online', value: 0, category: 'Performance Effectiveness' },
   { id: '13', label: 'Commercial Rate', value: 0, category: 'Performance Effectiveness' },
   { id: '14', label: 'Fit Rate', value: 0, category: 'Performance Effectiveness' },
   { id: '15', label: 'Utilisation Rate', value: 0, category: 'Performance Effectiveness' },
@@ -62,12 +62,12 @@ export const DETAILED_KPI_DATA: KpiItem[] = [
   { id: 'qhse-d2', label: 'Staff Negative Result', value: 85, category: 'QHSE' },
   // { id: 'qhse-d3', label: '0 Accident Rate', value: 85, category: 'QHSE' },
   { id: 'qhse-d4', label: 'LTSI (Hours)', value: 85, category: 'QHSE' },
-  { id: 'qhse-d5', label: 'License Compliance', value: 85, category: 'QHSE' },
-  { id: 'qhse-d6', label: 'Unit Valid Lincense', value: 0, category: 'QHSE' },
+  { id: 'qhse-d5', label: 'Legal Compliance', value: 85, category: 'QHSE' },
+  { id: 'qhse-d6', label: 'Unit Valid License', value: 0, category: 'QHSE' },
   { id: 'qhse-d7', label: 'Certification Rate', value: 85, category: 'QHSE' },
   { id: 'qhse-d8', label: 'CCTV Online', value: 0, category: 'QHSE' },
   { id: 'qhse-d9', label: 'Dashcam Installed', value: 85, category: 'QHSE' },
-  { id: 'qhse-d10', label: 'Dashcam Online/Active', value: 85, category: 'QHSE' },
+  { id: 'qhse-d10', label: 'Dashcam Online', value: 85, category: 'QHSE' },
   
   // Dummy Performance
   { id: 'perf-d1', label: 'Commercial Rate', value: 0, category: 'Performance Effectiveness' },

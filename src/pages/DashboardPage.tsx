@@ -99,7 +99,7 @@ const DashboardPage: React.FC = () => {
     // Inject Valid Lincense stats based on selected month
     if (validLicenseStats) {
       result = result.map(item => {
-        if (item.label === 'Unit Valid Lincense') {
+        if (item.label === 'Unit Valid License') {
           return {
             ...item,
             value: Math.round(validLicenseStats.percentage_valid),
@@ -187,7 +187,7 @@ const DashboardPage: React.FC = () => {
             />
 
             {/* Grid Chart */}
-            <KpiGrid items={filteredData} />
+            <KpiGrid items={filteredData} activeFilter={activeFilter}/>
             
             {/* Footer Control Bar */}
             {/* <div className="p-6 pt-0">

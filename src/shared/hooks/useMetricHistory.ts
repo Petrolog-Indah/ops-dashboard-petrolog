@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { fetchMetricHistory, fetchMetricMoM, DailySnapshot, MomComparison } from '../api/historicalApi';
+import { fetchMetricHistory, fetchMetricMoM } from '../api/historicalApi';
+import type { DailySnapshot, MomComparison } from '../api/historicalApi';
 
 export function useMetricHistory(metricName: string, startDate?: string, endDate?: string) {
     const [data, setData] = useState<DailySnapshot[]>([]);

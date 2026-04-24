@@ -18,6 +18,15 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
     'Efficiency & Productivity': { cols: 3, maxWidth: 'max-w-full' },
   };
 
+  type DualKpiItem = {
+    isDual: true;
+    id: string;
+    primary: KpiItem;
+    secondary: KpiItem;
+  };
+
+  type ProcessedItem = KpiItem | DualKpiItem;
+
   const currentConfig = GRID_CONFIG[activeFilter] || GRID_CONFIG['ALL'];
   const max_cols = currentConfig.cols;
 
@@ -27,7 +36,7 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
 
   // If we have both, we need to artificially inject the dual-card representation into the flow
   // We'll replace the first dashcam occurrence with the combined card
-  const processedItems = [];
+  const processedItems: ProcessedItem[] = [];
   const skipIds = new Set<string>();
 
   items.forEach((item) => {
@@ -83,7 +92,7 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
     <div className={`grid ${gridColsClass} ${currentConfig.maxWidth} gap-6 p-6 mx-auto justify-center`}>
       {processedItems.map((item, index) => {
         const isFirstItemLastRow = index === processedItems.length - remainder;
-        
+
         return (
           <div
             key={item.id}
@@ -93,7 +102,7 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
                 : ""
             }
           >
-            {item.isDual ? (
+            {'isDual' in item ? (
               <DualGaugeChart
                 primaryValue={item.primary.value}
                 primaryLabel={item.primary.label}
@@ -109,7 +118,7 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
               />
             )}
           </div>
-        )
+        );
       })}
     </div>
   );

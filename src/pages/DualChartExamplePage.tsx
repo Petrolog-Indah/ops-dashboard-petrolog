@@ -1,5 +1,3 @@
-import React from 'react';
-
 // --- IDE 1: DUAL NEEDLE (SINGLE TRACK) ---
 // Satu trek warna, tapi punya dua jarum (jarum utama dan jarum sekunder pembantu).
 // Sangat bagus untuk membandingkan 2 nilai yang berada pada rentang skala (0-100%) yang sama (misal: Target vs Realiasi)

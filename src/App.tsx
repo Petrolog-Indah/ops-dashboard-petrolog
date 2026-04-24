@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import DashboardPage from './pages/DashboardPage'
 import DualChartExamplePage from './pages/DualChartExamplePage'
 import './index.css'

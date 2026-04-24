@@ -50,3 +50,16 @@ export interface Geofence {
   units_in_zone: number;
   percentage: number;
 }
+
+export interface FitRate {
+  total_unit: number;
+  fit_unit: number;
+  fit_rate_percentage: number;
+  summary: {
+    kesehatan_unit: number;
+    overdue_total: number;
+    near_service: number;
+    unit_breakdown: number;
+    unit_standby: number;
+  }
+}

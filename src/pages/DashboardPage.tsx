@@ -11,6 +11,7 @@ import { useValidLicense } from '../entities/cctv/hooks/useValidLicense';
 import { useAvailability } from '../entities/cctv/hooks/useAvailability';
 import { useGeofence } from '../entities/cctv/hooks/useGeofence';
 import { fetchMetricHistory } from '../shared/api/historicalApi';
+import { useFitRate } from '../entities/cctv/hooks/useFitRate';
 
 type FilterType = KpiItem['category'] | 'ALL';
 
@@ -27,6 +28,7 @@ const DashboardPage: React.FC = () => {
   const { stats: validLicenseStats } = useValidLicense();
   const { stats: availabilityStats } = useAvailability();
   const { stats: geofenceStats } = useGeofence();
+  const { stats: fitRateStats } = useFitRate();
 
   // State untuk menyimpan data historikal dari NestJS backend saat bulan sebelumnya dipilih
   const [historicalData, setHistoricalData] = useState<any[]>([]);
@@ -96,7 +98,7 @@ const DashboardPage: React.FC = () => {
       }
     }
 
-    // Inject Valid Lincense stats based on selected month
+    // Inject Valid Lincense stats
     if (validLicenseStats) {
       result = result.map(item => {
         if (item.label === 'Unit Valid License') {
@@ -110,6 +112,22 @@ const DashboardPage: React.FC = () => {
         return item;
       });
     }
+
+    // Inject Fit Rate stats
+    if (fitRateStats) {
+      result = result.map(item => {
+        if (item.label === 'Fit Rate') {
+          return {
+            ...item,
+            value: Math.round(fitRateStats.fit_rate_percentage),
+            subLabel: `${fitRateStats.fit_unit} / ${fitRateStats.total_unit} Fit`,
+            isRealTime: true
+          };
+        }
+        return item;
+      });
+    }
+
     // Inject Geofence stats based on selected month
     if (geofenceStats) {
       result = result.map(item => {

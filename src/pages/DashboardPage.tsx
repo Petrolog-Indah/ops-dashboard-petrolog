@@ -12,6 +12,7 @@ import { useAvailability } from '../entities/cctv/hooks/useAvailability';
 import { useGeofence } from '../entities/cctv/hooks/useGeofence';
 import { fetchMetricHistory } from '../shared/api/historicalApi';
 import { useFitRate } from '../entities/cctv/hooks/useFitRate';
+import type { JettyMonthData } from '../entities/cctv/model/types';
 
 type FilterType = KpiItem['category'] | 'ALL';
 
@@ -82,7 +83,9 @@ const DashboardPage: React.FC = () => {
 
     // Inject Jetty stats based on selected month
     if (jettyStats && jettyStats.data) {
-      const monthData = jettyStats.data.find(d => d.bulan === selectedMonth);
+      const monthData = jettyStats.data.find(
+        (d: JettyMonthData) => d.bulan === selectedMonth
+      );
       if (monthData) {
         result = result.map(item => {
           if (item.label === 'Billed Jetty MTD') {

@@ -1,22 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { FitRate } from '../model/types';
-import { fetchFitRate } from '../api/fit-rate';
-import { POLLING_CONFIG } from '../../../shared/config/polling';
+import type { Availability } from '../model/types';
+import { fetchAvailability } from '../api/availability';
+import { POLLING_CONFIG } from '../../shared/config/polling';
 
-export function useFitRate(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes
-  const [stats, setStats] = useState<FitRate | null>(null);
+export function useAvailability(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes
+  const [stats, setStats] = useState<Availability | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   const loadStats = useCallback(async () => {
     try {
-      // setIsLoading(true); // Don't set loading on every poll to avoid UI flickering
-      const data = await fetchFitRate();
+      const data = await fetchAvailability();
       setStats(data);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'));
-      console.error('Error fetching Fit Rate stats:', err);
+      console.error('Error fetching valid license stats:', err);
     } finally {
       setIsLoading(false);
     }

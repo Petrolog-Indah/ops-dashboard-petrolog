@@ -1,21 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { validLicense } from '../model/types';
-import { fetchValidLicense } from '../api/validLicense';
-import { POLLING_CONFIG } from '../../../shared/config/polling';
+import type { SopCompliance } from '../model/types';
+import { fetchSopCompliance } from '../api/sop-compliance';
+import { POLLING_CONFIG } from '../../shared/config/polling';
 
-export function useValidLicense(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes
-  const [stats, setStats] = useState<validLicense | null>(null);
+export function useSopCompliance(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes
+  const [stats, setStats] = useState<SopCompliance | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   const loadStats = useCallback(async () => {
     try {
-      const data = await fetchValidLicense();
+      const data = await fetchSopCompliance();
       setStats(data);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'));
-      console.error('Error fetching valid license stats:', err);
+      console.error('Error fetching SOP compliance stats:', err);
     } finally {
       setIsLoading(false);
     }

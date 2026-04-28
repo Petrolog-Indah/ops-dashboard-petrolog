@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { CCTVStats } from '../model/types';
-import { fetchCCTVStats } from '../api/cctvApi';
-import { POLLING_CONFIG } from '../../../shared/config/polling';
+import { fetchCCTVStats } from '../api/cctv';
+import { POLLING_CONFIG } from '../../shared/config/polling';
 
 export function useCCTVStats(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes
   const [stats, setStats] = useState<CCTVStats | null>(null);

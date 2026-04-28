@@ -12,6 +12,16 @@ export interface validLicense {
   percentage_valid: number;
 }
 
+export interface fuelEfficiency {
+  total_active_vehicles: number;
+  details: {
+    vehicles_moving: number;
+    vehicles_idling: number;
+    overspeed_alerts_today: number;
+  };
+  fuel_efficiency: number;
+}
+
 export interface JettyMonthData {
   bulan: string;
   berthing: number;
@@ -61,5 +71,17 @@ export interface FitRate {
     near_service: number;
     unit_breakdown: number;
     unit_standby: number;
+  }
+}
+
+export interface SopCompliance {
+  total_bekerja: number;
+  total_absensi: number;
+  total_toolbox_meeting: number;
+  total_sop_terlaksana: number;
+  percentage: number;
+  area_breakdown:{
+    area: string;
+    count: number;
   }
 }

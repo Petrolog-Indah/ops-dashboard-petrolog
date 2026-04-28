@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { FitRate } from '../model/types';
-import { fetchFitRate } from '../api/fit-rate';
+import { fetchFitRate } from '../api/fitRate';
 import { POLLING_CONFIG } from '../../shared/config/polling';
 
 export function useFitRate(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes

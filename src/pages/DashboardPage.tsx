@@ -1,65 +1,38 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { DashboardHeader } from '../widgets/header/Header';
 import { KpiGrid } from '../widgets/kpiGrid/KpiGrid';
 import { DashboardFilters } from '../widgets/dashboardFilters/DashboardFilters';
 import { DASHBOARD_KPI_DATA, DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
-import { useCCTVStats } from '../entities/hooks/useCCTV';
-import { useJettyStats } from '../entities/hooks/useJetty';
-import { useValidLicense } from '../entities/hooks/useValidLicense';
-import { useAvailability } from '../entities/hooks/useAvailability';
-import { useGeofence } from '../entities/hooks/useGeofence';
-import { fetchMetricHistory } from '../shared/api/historicalApi';
-import { useFitRate } from '../entities/hooks/useFitRate';
 import { getStatsMapping } from '../shared/data/stats';
-import { useFuelEfficiency } from '../entities/hooks/useFuelEfficiency';
-import { useSopCompliance } from '../entities/hooks/useSopCompliance';
-import { useSpeedCompliance } from '../entities/hooks/useSpeedCompliance';
-
-type FilterType = KpiItem['category'] | 'ALL';
-
-const monthName = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+import { useKpiStore } from '../entities/store/useKpiStore';
+import { POLLING_CONFIG } from '../shared/config/polling';
 
 const DashboardPage: React.FC = () => {
-  const month = new Date().getMonth();
-  const currentMonth = monthName[month];
-  const [activeFilter, setActiveFilter] = useState<FilterType>('ALL');
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  // Ambil state dan actions dari Zustand store
+  const { 
+    stats, 
+    selectedMonth, 
+    activeFilter, 
+    historicalData,
+    setSelectedMonth,
+    setActiveFilter,
+    fetchAllStats 
+  } = useKpiStore();
 
-  const { stats: cctvStats } = useCCTVStats();
-  const { stats: jettyStats } = useJettyStats();
-  const { stats: validLicenseStats } = useValidLicense();
-  const { stats: availabilityStats } = useAvailability();
-  const { stats: geofenceStats } = useGeofence();
-  const { stats: fitRateStats } = useFitRate();
-  const { stats: fuelEfficiencyStats } = useFuelEfficiency();
-  const { stats: sopComplianceStats } = useSopCompliance();
-  const { stats: speedComplianceStats } = useSpeedCompliance();
+  // Polling data secara terpusat
+  useEffect(() => {
+    fetchAllStats(); // Initial fetch
 
-  // State untuk menyimpan data historikal dari NestJS backend saat bulan sebelumnya dipilih
-  const [historicalData, setHistoricalData] = useState<any[]>([]);
+    const interval = setInterval(() => {
+      fetchAllStats();
+    }, POLLING_CONFIG.DEFAULT_INTERVAL);
 
-  React.useEffect(() => {
-    // Apabila bulan yang dipilih BUKAN bulan berjalan (April 2026), maka ambil dari Backend NestJS
-    if (selectedMonth !== 'April') {
-      // Mockup integration: ambil data historical secara paralel
-      Promise.all([
-        fetchMetricHistory('CCTV Online'),
-        fetchMetricHistory('Billed Jetty MTD'),
-        fetchMetricHistory('Unit Valid Lincense'),
-        fetchMetricHistory('Within Geofence')
-      ]).then(res => {
-        setHistoricalData(res.flat());
-      });
-    } else {
-      setHistoricalData([]);
-    }
-  }, [selectedMonth]);
+    return () => clearInterval(interval);
+  }, [fetchAllStats]);
 
   /**
-   * LOGIKA FILTERING
-   * Jika ALL: Tampilkan 24 kriteria utama.
-   * Jika Kategori Tertentu (SOP, dll): Tampilkan data rincian (dummy).
+   * LOGIKA FILTERING & MAPPING
    */
   const filteredData = useMemo(() => {
     let result: KpiItem[] = [];
@@ -67,22 +40,21 @@ const DashboardPage: React.FC = () => {
     if (activeFilter === 'ALL') {
       result = [...DASHBOARD_KPI_DATA];
     } else {
-      // Filter dari data DETAILED berdasarkan kategori yang dipilih
       result = DETAILED_KPI_DATA.filter(item => item.category === activeFilter);
     }
 
     // Mapping API stats to KPI labels from external file
     const statsMapping = getStatsMapping(
-      cctvStats,
-      jettyStats,
-      validLicenseStats,
-      fitRateStats,
-      geofenceStats,
-      availabilityStats,
+      stats.cctv,
+      stats.jetty,
+      stats.validLicense,
+      stats.fitRate,
+      stats.geofence,
+      stats.availability,
       selectedMonth,
-      fuelEfficiencyStats,
-      sopComplianceStats,
-      speedComplianceStats,
+      stats.fuelEfficiency,
+      stats.sopCompliance,
+      stats.speedCompliance,
     );
 
     // Apply mappings to result array
@@ -99,10 +71,10 @@ const DashboardPage: React.FC = () => {
       return item;
     });
 
+    // Inject historical data if month is not current
     if (historicalData.length > 0) {
       result = result.map(item => {
         const history = historicalData.find(h => h.metric_name === item.label);
-
         if (history) {
           return {
             ...item,
@@ -111,33 +83,29 @@ const DashboardPage: React.FC = () => {
             isRealTime: false
           };
         }
-
         return item;
       });
     }
 
     return result;
-  }, [activeFilter, cctvStats, jettyStats, validLicenseStats, geofenceStats, availabilityStats, selectedMonth]);
+  }, [activeFilter, stats, selectedMonth, historicalData]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-emerald-500/30">
       <DashboardHeader
         selectedMonth={selectedMonth}
         onMonthChange={setSelectedMonth}
-        lastUpdate={jettyStats?.lastUpdate}
+        lastUpdate={stats.jetty?.lastUpdate}
       />
 
       <main className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[1600px] mx-auto">
-            {/* Navigasi Filter */}
             <DashboardFilters
-              activeFilter={activeFilter}
+              activeFilter={activeFilter as any}
               onFilterChange={(f) => setActiveFilter(f)}
             />
-
-            {/* Grid Chart */}
-            <KpiGrid items={filteredData} activeFilter={activeFilter} />
+            <KpiGrid items={filteredData} activeFilter={activeFilter as any} />
           </div>
         </div>
       </main>

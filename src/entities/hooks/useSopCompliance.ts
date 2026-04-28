@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { SopCompliance } from '../model/types';
-import { fetchSopCompliance } from '../api/sop-compliance';
+import { fetchSopCompliance } from '../api/sopCompliance';
 import { POLLING_CONFIG } from '../../shared/config/polling';
 
 export function useSopCompliance(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes

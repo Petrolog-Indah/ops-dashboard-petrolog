@@ -10,6 +10,7 @@ export const getStatsMapping = (
     selectedMonth: string,
     fuelEfficiencyStats: any,
     sopComplianceStats: any,
+    speedComplianceStats: any,
 ) => [
         {
             condition: cctvStats,
@@ -80,5 +81,11 @@ export const getStatsMapping = (
             label: 'SOP Compliance',
             value: sopComplianceStats ? Math.round(sopComplianceStats.percentage) : 0,
             subLabel: sopComplianceStats ? `${sopComplianceStats.total_sop_terlaksana} / ${sopComplianceStats.total_bekerja} SOP Terlaksana` : '',
+        },
+        {
+            condition: speedComplianceStats,
+            label: 'Speed-Limit Compliance',
+            value: speedComplianceStats ? Math.round(speedComplianceStats.compliance_percentage) : 0,
+            subLabel: speedComplianceStats ? `${speedComplianceStats.total_overspeed_alerts} / ${speedComplianceStats.total_active_units} Overspeed Alert` : '',
         },
     ];

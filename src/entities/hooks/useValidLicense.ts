@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { validLicense } from '../model/types';
-import { fetchValidLicense } from '../api/valid-license';
+import { fetchValidLicense } from '../api/validLicense';
 import { POLLING_CONFIG } from '../../shared/config/polling';
 
 export function useValidLicense(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes

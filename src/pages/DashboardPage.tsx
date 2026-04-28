@@ -14,6 +14,7 @@ import { useFitRate } from '../entities/hooks/useFitRate';
 import { getStatsMapping } from '../shared/data/stats';
 import { useFuelEfficiency } from '../entities/hooks/useFuelEfficiency';
 import { useSopCompliance } from '../entities/hooks/useSopCompliance';
+import { useSpeedCompliance } from '../entities/hooks/useSpeedCompliance';
 
 type FilterType = KpiItem['category'] | 'ALL';
 
@@ -33,6 +34,7 @@ const DashboardPage: React.FC = () => {
   const { stats: fitRateStats } = useFitRate();
   const { stats: fuelEfficiencyStats } = useFuelEfficiency();
   const { stats: sopComplianceStats } = useSopCompliance();
+  const { stats: speedComplianceStats } = useSpeedCompliance();
 
   // State untuk menyimpan data historikal dari NestJS backend saat bulan sebelumnya dipilih
   const [historicalData, setHistoricalData] = useState<any[]>([]);
@@ -79,7 +81,8 @@ const DashboardPage: React.FC = () => {
       availabilityStats,
       selectedMonth,
       fuelEfficiencyStats,
-      sopComplianceStats
+      sopComplianceStats,
+      speedComplianceStats,
     );
 
     // Apply mappings to result array

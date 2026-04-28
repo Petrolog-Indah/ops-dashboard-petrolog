@@ -22,6 +22,13 @@ export interface fuelEfficiency {
   fuel_efficiency: number;
 }
 
+export interface speedCompliance {
+  total_active_units: number;
+  total_overspeed_alerts: number;
+  average_alerts_per_unit: number;
+  compliance_percentage: number;
+}
+
 export interface JettyMonthData {
   bulan: string;
   berthing: number;

@@ -1,22 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { fuelEfficiency } from '../model/types';
-import { fetchFuelEfficiency } from '../api/fuelEfficiency';
+import type { speedCompliance } from '../model/types';
+import { fetchSpeedCompliance } from '../api/speedCompliance';
 import { POLLING_CONFIG } from '../../shared/config/polling';
 
-export function useFuelEfficiency(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes
-  const [stats, setStats] = useState<fuelEfficiency | null>(null);
+export function useSpeedCompliance(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVAL) { // Default 5 minutes
+  const [stats, setStats] = useState<speedCompliance | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   const loadStats = useCallback(async () => {
     try {
       // setIsLoading(true); // Don't set loading on every poll to avoid UI flickering
-      const data = await fetchFuelEfficiency();
+      const data = await fetchSpeedCompliance();
       setStats(data);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'));
-      console.error('Error fetching Fuel Efficiency stats:', err);
+      console.error('Error fetching Speed Compliance stats:', err);
     } finally {
       setIsLoading(false);
     }

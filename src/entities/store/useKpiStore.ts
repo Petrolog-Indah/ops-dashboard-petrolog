@@ -134,7 +134,7 @@ export const useKpiStore = create<KpiState>((set, get) => ({
     }
   },
 
-  fetchHistoricalData: async (month) => {
+  fetchHistoricalData: async (_month) => {
     set({ isLoading: true });
     try {
       const res = await Promise.all([

@@ -92,3 +92,15 @@ export interface SopCompliance {
     count: number;
   }
 }
+
+export interface Dashcam {
+  unit_terpasang: number;
+  unit_online: number;
+  status: string;
+  unsafe_behaviour_alert: number;
+  metrics: {
+    online_percentage: number;
+    install_percentage: number;
+    safety_percentage: number;
+  }
+}

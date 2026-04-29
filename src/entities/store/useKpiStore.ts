@@ -8,7 +8,8 @@ import type {
   FitRate, 
   fuelEfficiency, 
   SopCompliance, 
-  speedCompliance 
+  speedCompliance,
+  Dashcam
 } from '../model/types';
 import { fetchCCTVStats } from '../api/cctv';
 import { fetchJettyStats } from '../api/jetty';
@@ -19,6 +20,7 @@ import { fetchFitRate } from '../api/fitRate';
 import { fetchFuelEfficiency } from '../api/fuelEfficiency';
 import { fetchSopCompliance } from '../api/sopCompliance';
 import { fetchSpeedCompliance } from '../api/speedCompliance';
+import { fetchDashcam } from '../api/dashcam';
 import { fetchMetricHistory } from '../../shared/api/historicalApi';
 
 interface KpiState {
@@ -33,6 +35,7 @@ interface KpiState {
     fuelEfficiency: fuelEfficiency | null;
     sopCompliance: SopCompliance | null;
     speedCompliance: speedCompliance | null;
+    dashcam: Dashcam | null;
   };
   
   // UI State
@@ -63,6 +66,7 @@ export const useKpiStore = create<KpiState>((set, get) => ({
     fuelEfficiency: null,
     sopCompliance: null,
     speedCompliance: null,
+    dashcam: null,
   },
   selectedMonth: currentMonthName,
   activeFilter: 'ALL',
@@ -93,7 +97,8 @@ export const useKpiStore = create<KpiState>((set, get) => ({
         fitRate, 
         fuel, 
         sop, 
-        speed
+        speed,
+        dashcam
       ] = await Promise.all([
         fetchCCTVStats(),
         fetchJettyStats(),
@@ -104,6 +109,7 @@ export const useKpiStore = create<KpiState>((set, get) => ({
         fetchFuelEfficiency(),
         fetchSopCompliance(),
         fetchSpeedCompliance(),
+        fetchDashcam()
       ]);
 
       set({
@@ -117,6 +123,7 @@ export const useKpiStore = create<KpiState>((set, get) => ({
           fuelEfficiency: fuel,
           sopCompliance: sop,
           speedCompliance: speed,
+          dashcam
         },
         error: null,
         isLoading: false

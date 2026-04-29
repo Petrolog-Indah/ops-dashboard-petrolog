@@ -11,6 +11,7 @@ export const getStatsMapping = (
     fuelEfficiencyStats: any,
     sopComplianceStats: any,
     speedComplianceStats: any,
+    dashcamStats: any
 ) => [
         {
             condition: cctvStats,
@@ -86,6 +87,24 @@ export const getStatsMapping = (
             condition: speedComplianceStats,
             label: 'Speed-Limit Compliance',
             value: speedComplianceStats ? Math.round(speedComplianceStats.compliance_percentage) : 0,
-            subLabel: speedComplianceStats ? `${speedComplianceStats.total_overspeed_alerts} / ${speedComplianceStats.total_active_units} Overspeed Alert` : '',
+            subLabel: speedComplianceStats ? `${speedComplianceStats.total_overspeed_alerts} Overspeed Alert` : '',
+        },
+        {
+            condition: dashcamStats,
+            label: 'Dashcam Installed',
+            value: dashcamStats ? Math.round(dashcamStats.metrics.install_percentage) : 0,
+            subLabel: dashcamStats ? `${dashcamStats.unit_terpasang} Dashcam` : '',
+        },
+        {
+            condition: dashcamStats,
+            label: 'Dashcam Online',
+            value: dashcamStats ? Math.round(dashcamStats.metrics.online_percentage) : 0,
+            subLabel: dashcamStats ? `${dashcamStats.unit_online} / ${dashcamStats.unit_terpasang} Online` : '',
+        },
+        {
+            condition: dashcamStats,
+            label: 'Unsafe Behavior Dashcam',
+            value: dashcamStats ? Math.round(dashcamStats.metrics.safety_percentage) : 0,
+            subLabel: dashcamStats ? `${dashcamStats.unsafe_behaviour_alert} Alert` : '',
         },
     ];

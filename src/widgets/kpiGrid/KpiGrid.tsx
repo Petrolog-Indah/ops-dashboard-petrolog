@@ -31,8 +31,8 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
   const max_cols = currentConfig.cols;
 
   // Extract dashcam metrics
-  const installedItem = items.find(k => k.label === 'Dashcam Installed');
-  const activeItem = items.find(k => k.label === 'Dashcam Online');
+  // const installedItem = items.find(k => k.label === 'Dashcam Installed');
+  // const activeItem = items.find(k => k.label === 'Dashcam Online');
 
   // If we have both, we need to artificially inject the dual-card representation into the flow
   // We'll replace the first dashcam occurrence with the combined card
@@ -43,21 +43,21 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
     if (skipIds.has(item.id)) return;
 
     // Hanya gabung Dashcam di view "ALL" atau "Performance Effectiveness" (dimana mereka berada)
-    const canGroupDashcam = activeFilter === "ALL";
+    // const canGroupDashcam = activeFilter === "ALL";
     
-    if (canGroupDashcam && (item.label === 'Dashcam Installed' || item.label === 'Dashcam Online')) {
-      if (installedItem && activeItem) {
-        processedItems.push({
-          isDual: true,
-          id: 'dual-dashcam',
-          primary: installedItem,
-          secondary: activeItem
-        });
-        skipIds.add(installedItem.id);
-        skipIds.add(activeItem.id);
-        return;
-      }
-    }
+    // if (canGroupDashcam && (item.label === 'Dashcam Installed' || item.label === 'Dashcam Online')) {
+    //   if (installedItem && activeItem) {
+    //     processedItems.push({
+    //       isDual: true,
+    //       id: 'dual-dashcam',
+    //       primary: installedItem,
+    //       secondary: activeItem
+    //     });
+    //     skipIds.add(installedItem.id);
+    //     skipIds.add(activeItem.id);
+    //     return;
+    //   }
+    // }
     processedItems.push(item);
   });
 

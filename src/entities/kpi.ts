@@ -16,19 +16,19 @@ export interface KpiItem {
  */
 export const DASHBOARD_KPI_DATA: KpiItem[] = [
   // --- KATEGORI: SOP ---
-  { id: '1', label: 'SOP Availability', value: 0, category: 'SOP' },
+  // { id: '1', label: 'SOP Availability', value: 0, category: 'SOP' },
   { id: '2', label: 'SOP Compliance', value: 0, category: 'SOP' },
   
   // --- KATEGORI: QHSE ---
-  { id: '3', label: 'Staff Healthy Result', value: 0, category: 'QHSE' },
-  { id: '4', label: 'Staff Negative Result', value: 0, category: 'QHSE' },
+  // { id: '3', label: 'Staff Healthy Result', value: 0, category: 'QHSE' },
+  // { id: '4', label: 'Staff Negative Result', value: 0, category: 'QHSE' },
   // { id: '5', label: '0 Accident Rate', value: 0, category: 'QHSE' },
-  { id: '6', label: 'Zero LTI Rate', value: 0, category: 'QHSE' },
+  // { id: '6', label: 'Zero LTI Rate', value: 0, category: 'QHSE' },
   
   // --- KATEGORI: PERFORMANCE ---
-  { id: '7', label: 'Legal Compliance', value: 0, category: 'Performance Effectiveness' },
+  // { id: '7', label: 'Legal Compliance', value: 0, category: 'Performance Effectiveness' },
   { id: '8', label: 'Unit Valid License', value: 0, category: 'Performance Effectiveness' },
-  { id: '9', label: 'Certification Rate', value: 0, category: 'Performance Effectiveness' },
+  // { id: '9', label: 'Certification Rate', value: 0, category: 'Performance Effectiveness' },
   { id: '10', label: 'CCTV Online', value: 0, category: 'Performance Effectiveness' },
   { id: '11', label: 'Dashcam Installed', value: 0, category: 'Performance Effectiveness' },
   { id: '12', label: 'Dashcam Online', value: 0, category: 'Performance Effectiveness' },
@@ -39,12 +39,12 @@ export const DASHBOARD_KPI_DATA: KpiItem[] = [
   { id: '17', label: 'Billed Jetty MTD', value: 0, category: 'Performance Effectiveness' },
   
   // --- KATEGORI: EFFICIENCY ---
-  { id: '18', label: 'Proper Gear Utilization', value: 0, category: 'Efficiency & Productivity' },
+  // { id: '18', label: 'Proper Gear Utilization', value: 0, category: 'Efficiency & Productivity' },
   { id: '19', label: 'Speed-Limit Compliance', value: 0, category: 'Efficiency & Productivity' },
   { id: '20', label: 'Unsafe Behavior Dashcam', value: 0, category: 'Efficiency & Productivity' },
-  { id: '21', label: 'Average Man Hours', value: 0, category: 'Efficiency & Productivity' },
+  // { id: '21', label: 'Average Man Hours', value: 0, category: 'Efficiency & Productivity' },
   { id: '22', label: 'Fuel Efficiency', value: 0, subLabel: '', category: 'Efficiency & Productivity' },
-  { id: '23', label: 'Oil Efficiency Km/L', value: 0, subLabel: '0.10', category: 'Efficiency & Productivity' },
+  // { id: '23', label: 'Oil Efficiency Km/L', value: 0, subLabel: '0.10', category: 'Efficiency & Productivity' },
   // { id: '24', label: 'Budget Efficiency', value: 0, category: 'Efficiency & Productivity' },
 ];
 
@@ -54,17 +54,17 @@ export const DASHBOARD_KPI_DATA: KpiItem[] = [
  */
 export const DETAILED_KPI_DATA: KpiItem[] = [
   // Dummy SOP
-  { id: 'sop-d1', label: 'SOP Availability', value: 0, category: 'SOP' },
+  // { id: 'sop-d1', label: 'SOP Availability', value: 0, category: 'SOP' },
   { id: 'sop-d2', label: 'SOP Compliance', value: 0, category: 'SOP' },
   
   // Dummy QHSE
-  { id: 'qhse-d1', label: 'Staff Healthy Result', value: 0, category: 'QHSE' },
-  { id: 'qhse-d2', label: 'Staff Negative Result', value: 0, category: 'QHSE' },
+  // { id: 'qhse-d1', label: 'Staff Healthy Result', value: 0, category: 'QHSE' },
+  // { id: 'qhse-d2', label: 'Staff Negative Result', value: 0, category: 'QHSE' },
   // { id: 'qhse-d3', label: '0 Accident Rate', value: 0, category: 'QHSE' },
-  { id: 'qhse-d4', label: 'Zero LTI Rate', value: 0, category: 'QHSE' },
-  { id: 'qhse-d5', label: 'Legal Compliance', value: 0, category: 'QHSE' },
+  // { id: 'qhse-d4', label: 'Zero LTI Rate', value: 0, category: 'QHSE' },
+  // { id: 'qhse-d5', label: 'Legal Compliance', value: 0, category: 'QHSE' },
   { id: 'qhse-d6', label: 'Unit Valid License', value: 0, category: 'QHSE' },
-  { id: 'qhse-d7', label: 'Certification Rate', value: 0, category: 'QHSE' },
+  // { id: 'qhse-d7', label: 'Certification Rate', value: 0, category: 'QHSE' },
   { id: 'qhse-d8', label: 'CCTV Online', value: 0, category: 'QHSE' },
   { id: 'qhse-d9', label: 'Dashcam Installed', value: 0, category: 'QHSE' },
   { id: 'qhse-d10', label: 'Dashcam Online', value: 0, category: 'QHSE' },
@@ -77,11 +77,11 @@ export const DETAILED_KPI_DATA: KpiItem[] = [
   { id: 'perf-d5', label: 'Within Geofence', value: 0, category: 'Performance Effectiveness' },
   
   // Dummy Efficiency
-  { id: 'eff-d1', label: 'Proper Gear Utilization', value: 0, category: 'Efficiency & Productivity' },
+  // { id: 'eff-d1', label: 'Proper Gear Utilization', value: 0, category: 'Efficiency & Productivity' },
   { id: 'eff-d2', label: 'Speed-Limit Compliance', value: 0, category: 'Efficiency & Productivity' },
   { id: 'eff-d3', label: 'Unsafe Behavior Dashcam', value: 0, category: 'Efficiency & Productivity' },
-  { id: 'eff-d4', label: 'Average Man Hours', value: 0, category: 'Efficiency & Productivity' },
+  // { id: 'eff-d4', label: 'Average Man Hours', value: 0, category: 'Efficiency & Productivity' },
   { id: 'eff-d5', label: 'Fuel Efficiency', value: 0, category: 'Efficiency & Productivity' },
-  { id: 'eff-d6', label: 'Oil Efficiency Km/L', value: 0, category: 'Efficiency & Productivity' },
+  // { id: 'eff-d6', label: 'Oil Efficiency Km/L', value: 0, category: 'Efficiency & Productivity' },
   // { id: 'eff-d7', label: 'Budget Efficiency', value: 0, category: 'Efficiency & Productivity' },
 ];

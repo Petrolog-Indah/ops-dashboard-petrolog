@@ -11,6 +11,13 @@ export default defineConfig({
   server: {
     allowedHosts: [
       '1a12-182-253-97-194.ngrok-free.app'
-    ]
+    ],
+    proxy: {
+      '/api': {
+        target: 'https://dash.petrolog.my.id',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   }
 })

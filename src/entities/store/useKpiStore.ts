@@ -9,7 +9,8 @@ import type {
   fuelEfficiency, 
   SopCompliance, 
   speedCompliance,
-  Dashcam
+  Dashcam,
+  P2HToolboxCompliance
 } from '../model/types';
 import { fetchCCTVStats } from '../api/cctv';
 import { fetchJettyStats } from '../api/jetty';
@@ -22,6 +23,7 @@ import { fetchSopCompliance } from '../api/sopCompliance';
 import { fetchSpeedCompliance } from '../api/speedCompliance';
 import { fetchDashcam } from '../api/dashcam';
 import { fetchMetricHistory } from '../../shared/api/historicalApi';
+import { fetchP2HCompliance } from '../api/p2hTbm';
 
 interface KpiState {
   // Data Stats
@@ -36,6 +38,7 @@ interface KpiState {
     sopCompliance: SopCompliance | null;
     speedCompliance: speedCompliance | null;
     dashcam: Dashcam | null;
+    p2hTbmCompliance: P2HToolboxCompliance | null;
   };
   
   // UI State
@@ -67,6 +70,7 @@ export const useKpiStore = create<KpiState>((set, get) => ({
     sopCompliance: null,
     speedCompliance: null,
     dashcam: null,
+    p2hTbmCompliance: null,
   },
   selectedMonth: currentMonthName,
   activeFilter: 'ALL',
@@ -98,7 +102,8 @@ export const useKpiStore = create<KpiState>((set, get) => ({
         fuel, 
         sop, 
         speed,
-        dashcam
+        dashcam,
+        p2hTbm
       ] = await Promise.all([
         fetchCCTVStats(),
         fetchJettyStats(),
@@ -109,7 +114,8 @@ export const useKpiStore = create<KpiState>((set, get) => ({
         fetchFuelEfficiency(),
         fetchSopCompliance(),
         fetchSpeedCompliance(),
-        fetchDashcam()
+        fetchDashcam(),
+        fetchP2HCompliance(new Date().getMonth() + 1, new Date().getFullYear()),
       ]);
 
       set({
@@ -123,7 +129,8 @@ export const useKpiStore = create<KpiState>((set, get) => ({
           fuelEfficiency: fuel,
           sopCompliance: sop,
           speedCompliance: speed,
-          dashcam
+          dashcam,
+          p2hTbmCompliance: p2hTbm,
         },
         error: null,
         isLoading: false

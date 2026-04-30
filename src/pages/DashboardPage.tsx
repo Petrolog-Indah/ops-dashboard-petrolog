@@ -55,7 +55,8 @@ const DashboardPage: React.FC = () => {
       stats.fuelEfficiency,
       stats.sopCompliance,
       stats.speedCompliance,
-      stats.dashcam
+      stats.dashcam,
+      stats.p2hTbmCompliance
     );
 
     // Apply mappings to result array

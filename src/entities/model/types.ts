@@ -104,3 +104,17 @@ export interface Dashcam {
     safety_percentage: number;
   }
 }
+
+export interface P2HToolboxCompliance {
+  period: {
+    start: string;
+    end: string;
+  };
+  activity: string;
+  count: number;
+  p2h_percentage: number;   
+  tbm_percentage: number;   
+  p2h_checked: number;      
+  tbm_checked: number;     
+  total_staff: number;    
+}

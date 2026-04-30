@@ -11,7 +11,8 @@ export const getStatsMapping = (
     fuelEfficiencyStats: any,
     sopComplianceStats: any,
     speedComplianceStats: any,
-    dashcamStats: any
+    dashcamStats: any,
+    p2hTbmCompliance: any,
 ) => [
         {
             condition: cctvStats,
@@ -107,4 +108,21 @@ export const getStatsMapping = (
             value: dashcamStats ? Math.round(dashcamStats.metrics.safety_percentage) : 0,
             subLabel: dashcamStats ? `${dashcamStats.unsafe_behaviour_alert} Alert` : '',
         },
+        {
+            condition: p2hTbmCompliance,
+            label: 'P2H Compliance',
+            value: p2hTbmCompliance ? p2hTbmCompliance.p2h_percentage : 0,
+            subLabel: p2hTbmCompliance
+                ? `${p2hTbmCompliance.p2h_checked} / ${p2hTbmCompliance.count} Checked`
+                : '',
+        },
+        {
+            condition: p2hTbmCompliance,
+            label: 'TBM Compliance',
+            value: p2hTbmCompliance ? p2hTbmCompliance.tbm_percentage : 0,
+            subLabel: p2hTbmCompliance
+                ? `${p2hTbmCompliance.tbm_checked} / ${p2hTbmCompliance.count} Checked`
+                : '',
+        },
+
     ];

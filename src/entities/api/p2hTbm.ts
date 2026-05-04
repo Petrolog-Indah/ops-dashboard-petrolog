@@ -1,6 +1,6 @@
 import type { P2HToolboxCompliance } from '../model/types';
 
-const BASE_URL = 'https://spqakoyhyziuxfgdkgpm.supabase.co/functions/v1/p2h-toolbox-export';
+const BASE_URL = import.meta.env.VITE_P2H_URL;
 const API_KEY  = import.meta.env.VITE_P2H_API_KEY;
 
 export async function fetchP2HCompliance(month: number, year: number): Promise<P2HToolboxCompliance> {

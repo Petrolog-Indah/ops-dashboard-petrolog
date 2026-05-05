@@ -82,7 +82,7 @@ export const getStatsMapping = (
             condition: sopComplianceStats,
             label: 'SOP Compliance',
             value: sopComplianceStats ? Math.round(sopComplianceStats.percentage) : 0,
-            subLabel: sopComplianceStats ? `${sopComplianceStats.total_sop_terlaksana} / ${sopComplianceStats.total_bekerja} SOP Terlaksana` : '',
+            subLabel: sopComplianceStats ? `${sopComplianceStats.total_sop_terlaksana} / ${sopComplianceStats.total_absensi} SOP Terlaksana` : '',
         },
         {
             condition: speedComplianceStats,

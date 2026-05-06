@@ -104,7 +104,7 @@ export const getStatsMapping = (
         },
         {
             condition: dashcamStats,
-            label: 'Unsafe Behavior Dashcam',
+            label: 'Safe Driving Index',
             value: dashcamStats ? Math.round(dashcamStats.metrics.safety_percentage) : 0,
             subLabel: dashcamStats ? `${dashcamStats.unsafe_behaviour_alert} Alert Today` : '',
         },

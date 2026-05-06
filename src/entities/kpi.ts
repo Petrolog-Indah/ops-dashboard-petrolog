@@ -43,7 +43,7 @@ export const DASHBOARD_KPI_DATA: KpiItem[] = [
   // --- KATEGORI: EFFICIENCY ---
   // { id: '18', label: 'Proper Gear Utilization', value: 0, category: 'Efficiency & Productivity' },
   { id: '19', label: 'Speed-Limit Compliance', value: 0, category: 'Efficiency & Productivity' },
-  { id: '20', label: 'Unsafe Behavior Dashcam', value: 0, category: 'Efficiency & Productivity' },
+  { id: '20', label: 'Safe Driving Index', value: 0, category: 'Efficiency & Productivity' },
   // { id: '21', label: 'Average Man Hours', value: 0, category: 'Efficiency & Productivity' },
   { id: '22', label: 'Fuel Efficiency', value: 0, subLabel: '', category: 'Efficiency & Productivity' },
   // { id: '23', label: 'Oil Efficiency Km/L', value: 0, subLabel: '0.10', category: 'Efficiency & Productivity' },
@@ -83,7 +83,7 @@ export const DETAILED_KPI_DATA: KpiItem[] = [
   // Dummy Efficiency
   // { id: 'eff-d1', label: 'Proper Gear Utilization', value: 0, category: 'Efficiency & Productivity' },
   { id: 'eff-d2', label: 'Speed-Limit Compliance', value: 0, category: 'Efficiency & Productivity' },
-  { id: 'eff-d3', label: 'Unsafe Behavior Dashcam', value: 0, category: 'Efficiency & Productivity' },
+  { id: 'eff-d3', label: 'Safe Driving Index', value: 0, category: 'Efficiency & Productivity' },
   // { id: 'eff-d4', label: 'Average Man Hours', value: 0, category: 'Efficiency & Productivity' },
   { id: 'eff-d5', label: 'Fuel Efficiency', value: 0, category: 'Efficiency & Productivity' },
   // { id: 'eff-d6', label: 'Oil Efficiency Km/L', value: 0, category: 'Efficiency & Productivity' },

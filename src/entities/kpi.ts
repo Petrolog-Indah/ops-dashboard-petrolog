@@ -17,7 +17,7 @@ export interface KpiItem {
 export const DASHBOARD_KPI_DATA: KpiItem[] = [
   // --- KATEGORI: SOP ---
   // { id: '1', label: 'SOP Availability', value: 0, category: 'SOP' },
-  { id: '2', label: 'SOP Compliance', value: 0, category: 'SOP' },
+  // { id: '2', label: 'SOP Compliance', value: 0, category: 'SOP' },
   { id: '25', label: 'P2H Compliance', value: 0, category: 'SOP' }, 
   { id: '26', label: 'TBM Compliance', value: 0, category: 'SOP' },
   
@@ -57,7 +57,7 @@ export const DASHBOARD_KPI_DATA: KpiItem[] = [
 export const DETAILED_KPI_DATA: KpiItem[] = [
   // Dummy SOP
   // { id: 'sop-d1', label: 'SOP Availability', value: 0, category: 'SOP' },
-  { id: 'sop-d2', label: 'SOP Compliance', value: 0, category: 'SOP' },
+  // { id: 'sop-d2', label: 'SOP Compliance', value: 0, category: 'SOP' },
   { id: 'sop-d3', label: 'P2H Compliance', value: 0, category: 'SOP' },
   { id: 'sop-d4', label: 'TBM Compliance', value: 0, category: 'SOP' },
   

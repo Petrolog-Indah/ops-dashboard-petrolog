@@ -88,7 +88,7 @@ export const getStatsMapping = (
             condition: speedComplianceStats,
             label: 'Speed-Limit Compliance',
             value: speedComplianceStats ? Math.round(speedComplianceStats.compliance_percentage) : 0,
-            subLabel: speedComplianceStats ? `${speedComplianceStats.total_overspeed_alerts} Overspeed Alert` : '',
+            subLabel: speedComplianceStats ? `${speedComplianceStats.total_violating_units} Units Overspeed` : '',
         },
         {
             condition: dashcamStats,

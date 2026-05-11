@@ -24,6 +24,7 @@ export interface fuelEfficiency {
 
 export interface speedCompliance {
   total_active_units: number;
+  total_violating_units: number;
   total_overspeed_alerts: number;
   average_alerts_per_unit: number;
   compliance_percentage: number;

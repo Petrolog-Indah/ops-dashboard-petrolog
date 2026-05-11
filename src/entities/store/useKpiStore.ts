@@ -12,6 +12,7 @@ import type {
   Dashcam,
   P2HToolboxCompliance
 } from '../model/types';
+import type { FilterType } from '../../widgets/dashboardFilters/DashboardFilters';
 import { fetchCCTVStats } from '../api/cctv';
 import { fetchJettyStats } from '../api/jetty';
 import { fetchValidLicense } from '../api/validLicense';
@@ -43,14 +44,14 @@ interface KpiState {
   
   // UI State
   selectedMonth: string;
-  activeFilter: string;
+  activeFilter: FilterType;
   historicalData: any[];
   isLoading: boolean;
   error: string | null;
 
   // Actions
   setSelectedMonth: (month: string) => void;
-  setActiveFilter: (filter: string) => void;
+  setActiveFilter: (filter: FilterType) => void;
   fetchAllStats: () => Promise<void>;
   fetchHistoricalData: (month: string) => Promise<void>;
 }

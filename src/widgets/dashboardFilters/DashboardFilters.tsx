@@ -1,29 +1,30 @@
 import React from 'react';
 import type { KpiItem } from '../../entities/kpi';
 
-type FilterType = KpiItem['category'] | 'ALL';
+export type FilterType = KpiItem['category'] | 'ALL';
 
 interface DashboardFiltersProps {
   activeFilter: FilterType;
   onFilterChange: (filter: FilterType) => void;
 }
 
+export const DASHBOARD_FILTERS: { label: string; value: FilterType }[] = [
+  { label: 'All Data', value: 'ALL' },
+  { label: 'SOP', value: 'SOP' },
+  { label: 'QHSE', value: 'QHSE' },
+  { label: 'Performance Effectiveness', value: 'Performance Effectiveness' },
+  { label: 'Efficiency & Productivity', value: 'Efficiency & Productivity' },
+];
+
 export const DashboardFilters: React.FC<DashboardFiltersProps> = ({ 
   activeFilter, 
   onFilterChange 
 }) => {
-  const filters: { label: string; value: FilterType }[] = [
-    { label: 'All Data', value: 'ALL' },
-    { label: 'SOP', value: 'SOP' },
-    { label: 'QHSE', value: 'QHSE' },
-    { label: 'Performance Effectiveness', value: 'Performance Effectiveness' },
-    { label: 'Efficiency & Productivity', value: 'Efficiency & Productivity' },
-  ];
 
   return (
     <div className="px-6 mb-2">
       <div className="flex flex-wrap items-center gap-2 p-1 bg-white border border-slate-200 rounded-2xl shadow-sm w-fit w-full">
-        {filters.map((filter) => (
+        {DASHBOARD_FILTERS.map((filter) => (
           <button
             key={filter.value}
             onClick={() => onFilterChange(filter.value)}

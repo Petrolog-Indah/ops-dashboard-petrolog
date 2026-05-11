@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react';
 import { DashboardHeader } from '../widgets/header/Header';
 import { KpiGrid } from '../widgets/kpiGrid/KpiGrid';
-import { DashboardFilters } from '../widgets/dashboardFilters/DashboardFilters';
+import { DashboardFilters, DASHBOARD_FILTERS, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
 import { DASHBOARD_KPI_DATA, DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
 import { getStatsMapping } from '../shared/data/stats';
@@ -30,6 +30,19 @@ const DashboardPage: React.FC = () => {
 
     return () => clearInterval(interval);
   }, [fetchAllStats]);
+
+  // Automatic Change Filters
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const filterValues: FilterType[] = DASHBOARD_FILTERS.map(f => f.value);
+      const currentIndex = filterValues.indexOf(activeFilter);
+
+      const nextIndex = currentIndex === filterValues.length - 1 ? 0 : currentIndex + 1;
+      setActiveFilter(filterValues[nextIndex]);
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, [activeFilter, setActiveFilter]);
 
   /**
    * LOGIKA FILTERING & MAPPING
@@ -102,7 +115,7 @@ const DashboardPage: React.FC = () => {
 
       <main className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="max-w-[1600px] mx-auto">
+          <div className="max-w-[2050px] mx-auto">
             <DashboardFilters
               activeFilter={activeFilter as any}
               onFilterChange={(f) => setActiveFilter(f)}

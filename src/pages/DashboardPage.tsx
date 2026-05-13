@@ -7,6 +7,7 @@ import type { KpiItem } from '../entities/kpi';
 import { getStatsMapping } from '../shared/data/stats';
 import { useKpiStore } from '../entities/store/useKpiStore';
 import { POLLING_CONFIG } from '../shared/config/polling';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const DashboardPage: React.FC = () => {
   // Ambil state dan actions dari Zustand store
@@ -120,7 +121,23 @@ const DashboardPage: React.FC = () => {
               activeFilter={activeFilter as any}
               onFilterChange={(f) => setActiveFilter(f)}
             />
-            <KpiGrid items={filteredData} activeFilter={activeFilter as any} />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeFilter}
+                initial={{ opacity: 0, x: 120 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -120 }}
+                transition={{
+                  duration: 0.35,
+                  ease: "easeInOut"
+                }}
+              >
+                <KpiGrid
+                  items={filteredData}
+                  activeFilter={activeFilter}
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </main>

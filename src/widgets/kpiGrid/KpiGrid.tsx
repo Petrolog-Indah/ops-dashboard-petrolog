@@ -1,6 +1,7 @@
 import React from 'react';
 import { GaugeChart } from '../../shared/ui/GaugeChart';
 import { DualGaugeChart } from '../../shared/ui/DualGaugeChart';
+import { TrendChart } from '../../shared/ui/TrendChart';
 import type { KpiItem } from '../../entities/kpi';
 
 interface KpiGridProps {
@@ -13,8 +14,8 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
   const GRID_CONFIG: Record<string, { cols: number, maxWidth: string }> = {
     'ALL': { cols: 8, maxWidth: 'max-w-full' },
     'SOP': { cols: 2, maxWidth: 'max-w-full' },
-    'QHSE': { cols: 5, maxWidth: 'max-w-full' },
-    'Performance Effectiveness': { cols: 3, maxWidth: 'max-w-full' },
+    'QHSE': { cols: 4, maxWidth: 'max-w-full' },
+    'Performance Effectiveness': { cols: 5, maxWidth: 'max-w-full' },
     'Efficiency & Productivity': { cols: 3, maxWidth: 'max-w-full' },
   };
 
@@ -108,6 +109,12 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
                 primaryLabel={item.primary.label}
                 secondaryValue={item.secondary.value}
                 secondaryLabel={item.secondary.label}
+              />
+            ) : item.trend ? (
+              <TrendChart 
+                label={item.label}
+                subLabel={item.subLabel}
+                trend={item.trend}
               />
             ) : (
               <GaugeChart

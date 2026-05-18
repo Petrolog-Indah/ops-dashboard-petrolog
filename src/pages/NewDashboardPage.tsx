@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react';
 import { DashboardHeader } from '../widgets/header/Header';
-import { KpiGrid } from '../widgets/kpiGrid/KpiGrid';
-import { DashboardFilters, DASHBOARD_FILTERS, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
+import { NewKpiGrid } from '../widgets/kpiGrid/NewKpiGrid';
+import { DashboardFilters } from '../widgets/dashboardFilters/DashboardFilters';
 import { DASHBOARD_KPI_DATA, DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
 import { getStatsMapping } from '../shared/data/stats';
@@ -9,8 +9,7 @@ import { useKpiStore } from '../entities/store/useKpiStore';
 import { POLLING_CONFIG } from '../shared/config/polling';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const DashboardPage: React.FC = () => {
-  // Ambil state dan actions dari Zustand store
+const NewDashboardPage: React.FC = () => {
   const { 
     stats, 
     selectedMonth, 
@@ -21,9 +20,8 @@ const DashboardPage: React.FC = () => {
     fetchAllStats 
   } = useKpiStore();
 
-  // Polling data secara terpusat
   useEffect(() => {
-    fetchAllStats(); // Initial fetch
+    fetchAllStats();
 
     const interval = setInterval(() => {
       fetchAllStats();
@@ -32,32 +30,30 @@ const DashboardPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [fetchAllStats]);
 
-  // Automatic Change Filters
+  // Menonaktifkan automatic filter change untuk mempermudah observasi UI baru
+  // Jika ingin dinyalakan lagi, bisa di-uncomment
+  /*
   useEffect(() => {
     const interval = setInterval(() => {
       const filterValues: FilterType[] = DASHBOARD_FILTERS.map(f => f.value);
       const currentIndex = filterValues.indexOf(activeFilter);
-
       const nextIndex = currentIndex === filterValues.length - 1 ? 0 : currentIndex + 1;
       setActiveFilter(filterValues[nextIndex]);
     }, 15000);
-
     return () => clearInterval(interval);
   }, [activeFilter, setActiveFilter]);
+  */
 
-  /**
-   * LOGIKA FILTERING & MAPPING
-   */
   const filteredData = useMemo(() => {
     let result: KpiItem[] = [];
 
     if (activeFilter === 'ALL') {
-      result = [...DASHBOARD_KPI_DATA];
+      // Gunakan DETAILED_KPI_DATA agar semua kategori (termasuk QHSE) tampil
+      result = [...DETAILED_KPI_DATA];
     } else {
       result = DETAILED_KPI_DATA.filter(item => item.category === activeFilter);
     }
 
-    // Mapping API stats to KPI labels from external file
     const statsMapping = getStatsMapping(
       stats.cctv,
       stats.jetty,
@@ -73,7 +69,6 @@ const DashboardPage: React.FC = () => {
       stats.p2hTbmCompliance
     );
 
-    // Apply mappings to result array
     result = result.map(item => {
       const mapping = statsMapping.find(m => m.label === item.label && m.condition);
       if (mapping) {
@@ -87,7 +82,6 @@ const DashboardPage: React.FC = () => {
       return item;
     });
 
-    // Inject historical data if month is not current
     if (historicalData.length > 0) {
       result = result.map(item => {
         const history = historicalData.find(h => h.metric_name === item.label);
@@ -107,32 +101,31 @@ const DashboardPage: React.FC = () => {
   }, [activeFilter, stats, selectedMonth, historicalData]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-emerald-500/30">
+    <div className="min-h-screen text-slate-200 flex flex-col font-sans selection:bg-emerald-500/30">
+      {/* Menggunakan header yang sama, namun parent ini background-nya gelap */}
       <DashboardHeader
         selectedMonth={selectedMonth}
         onMonthChange={setSelectedMonth}
         lastUpdate={stats.jetty?.lastUpdate}
       />
 
-      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden pb-10">
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="max-w-[2500px] mx-auto">
+          <div className="max-w-[2500px] mx-auto px-4 md:px-6 mt-4">
             <DashboardFilters
               activeFilter={activeFilter as any}
               onFilterChange={(f) => setActiveFilter(f)}
             />
+            
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeFilter}
-                initial={{ opacity: 0, x: 120 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -120 }}
-                transition={{
-                  duration: 0.35,
-                  ease: "easeInOut"
-                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
               >
-                <KpiGrid
+                <NewKpiGrid
                   items={filteredData}
                   activeFilter={activeFilter}
                 />
@@ -142,9 +135,9 @@ const DashboardPage: React.FC = () => {
         </div>
       </main>
 
-      <footer className="h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-inner" />
+      <footer className="h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-inner mt-auto" />
     </div>
   );
 };
 
-export default DashboardPage;
+export default NewDashboardPage;

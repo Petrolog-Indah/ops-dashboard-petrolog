@@ -8,6 +8,12 @@ export interface KpiItem {
   value: number;
   subLabel?: string;
   isRealTime?: boolean;
+  trend?: {
+    time: string;
+    efficiency: number;
+    idle_ratio: number;
+    distance_km: number;
+  }[];
   category: 'ALL' | 'SOP' | 'QHSE' | 'Performance Effectiveness' | 'Efficiency & Productivity';
 }
 

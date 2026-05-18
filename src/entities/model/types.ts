@@ -20,6 +20,12 @@ export interface fuelEfficiency {
     overspeed_alerts_today: number;
   };
   fuel_efficiency: number;
+  trend?: {
+    time: string;
+    efficiency: number;
+    idle_ratio: number;
+    distance_km: number;
+  }[];
 }
 
 export interface speedCompliance {

@@ -77,6 +77,7 @@ export const getStatsMapping = (
             label: 'Fuel Efficiency',
             value: fuelEfficiencyStats ? Math.round(fuelEfficiencyStats.fuel_efficiency) : 0,
             subLabel: fuelEfficiencyStats ? `From ${fuelEfficiencyStats.total_active_vehicles} unit active` : '',
+            trend: fuelEfficiencyStats?.trend
         },
         {
             condition: sopComplianceStats,

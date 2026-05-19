@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from 'react';
 import { DashboardHeader } from '../widgets/header/Header';
 import { NewKpiGrid } from '../widgets/kpiGrid/NewKpiGrid';
 import { DashboardFilters } from '../widgets/dashboardFilters/DashboardFilters';
-import { DASHBOARD_KPI_DATA, DETAILED_KPI_DATA } from '../entities/kpi';
+import { DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
 import { getStatsMapping } from '../shared/data/stats';
 import { useKpiStore } from '../entities/store/useKpiStore';

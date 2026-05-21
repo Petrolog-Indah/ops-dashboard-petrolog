@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react';
 import { DashboardHeader } from '../widgets/header/Header';
 import { NewKpiGrid } from '../widgets/kpiGrid/NewKpiGrid';
-import { DashboardFilters } from '../widgets/dashboardFilters/DashboardFilters';
+import { DASHBOARD_FILTERS, DashboardFilters, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
 import { DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
 import { getStatsMapping } from '../shared/data/stats';
@@ -30,15 +30,15 @@ const NewDashboardPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [fetchAllStats]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const filterValues: FilterType[] = DASHBOARD_FILTERS.map(f => f.value);
-  //     const currentIndex = filterValues.indexOf(activeFilter);
-  //     const nextIndex = currentIndex === filterValues.length - 1 ? 0 : currentIndex + 1;
-  //     setActiveFilter(filterValues[nextIndex]);
-  //   }, 15000);
-  //   return () => clearInterval(interval);
-  // }, [activeFilter, setActiveFilter]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const filterValues: FilterType[] = DASHBOARD_FILTERS.map(f => f.value);
+      const currentIndex = filterValues.indexOf(activeFilter);
+      const nextIndex = currentIndex === filterValues.length - 1 ? 0 : currentIndex + 1;
+      setActiveFilter(filterValues[nextIndex]);
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [activeFilter, setActiveFilter]);
 
   const filteredData = useMemo(() => {
     let result: KpiItem[] = [];

@@ -21,7 +21,7 @@ const renderGaugeSVG = (value: number, isMirrored: boolean) => {
 
   const rotation = (value / 100) * 180 - 90; 
   return (
-    <svg viewBox={`0 0 ${radius * 2} ${radius + 15}`} className="w-full h-auto drop-shadow-sm" style={isMirrored ? { transform: 'scaleY(-1)' } : {}}>
+    <svg viewBox={`0 0 ${radius * 2} ${radius + 30}`} className="w-full h-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet" style={isMirrored ? { transform: 'scaleY(-1)' } : {}}>
       {segments.map((color, i) => {
         const startAngle = 180 + i * (segmentAngle + gapAngle);
         const endAngle = startAngle + segmentAngle;
@@ -96,9 +96,9 @@ export const DualGaugeChart: React.FC<DualGaugeChartProps> = ({
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-tight mt-1">{primaryLabel}</span>
            </div>
            
-           <div className="flex flex-col items-center w-[140px]">
-              {renderGaugeSVG(primaryValue, false)}
-           </div>
+           <div className="flex flex-col items-center w-full max-w-[140px] min-w-0">
+               {renderGaugeSVG(primaryValue, false)}
+            </div>
         </div>
 
         {/* SATU GARIS PEMISAH TIPIS DI TENGAH */}
@@ -114,9 +114,9 @@ export const DualGaugeChart: React.FC<DualGaugeChartProps> = ({
               <span className="text-xl font-black tabular-nums text-slate-800 leading-none">{secondaryValue}%</span>
            </div>
 
-           <div className="flex flex-col items-center w-[140px]">
-              {renderGaugeSVG(secondaryValue, true)}
-           </div>
+           <div className="flex flex-col items-center w-full max-w-[140px] min-w-0">
+               {renderGaugeSVG(secondaryValue, true)}
+            </div>
         </div>
       </div>
     </div>

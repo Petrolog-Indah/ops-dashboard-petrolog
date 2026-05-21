@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react';
 import { DashboardHeader } from '../widgets/header/Header';
 import { NewKpiGrid } from '../widgets/kpiGrid/NewKpiGrid';
-import { DashboardFilters } from '../widgets/dashboardFilters/DashboardFilters';
+import { DASHBOARD_FILTERS, DashboardFilters, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
 import { DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
 import { getStatsMapping } from '../shared/data/stats';
@@ -30,19 +30,15 @@ const NewDashboardPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [fetchAllStats]);
 
-  // Menonaktifkan automatic filter change untuk mempermudah observasi UI baru
-  // Jika ingin dinyalakan lagi, bisa di-uncomment
-  /*
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const filterValues: FilterType[] = DASHBOARD_FILTERS.map(f => f.value);
-      const currentIndex = filterValues.indexOf(activeFilter);
-      const nextIndex = currentIndex === filterValues.length - 1 ? 0 : currentIndex + 1;
-      setActiveFilter(filterValues[nextIndex]);
-    }, 15000);
-    return () => clearInterval(interval);
-  }, [activeFilter, setActiveFilter]);
-  */
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const filterValues: FilterType[] = DASHBOARD_FILTERS.map(f => f.value);
+  //     const currentIndex = filterValues.indexOf(activeFilter);
+  //     const nextIndex = currentIndex === filterValues.length - 1 ? 0 : currentIndex + 1;
+  //     setActiveFilter(filterValues[nextIndex]);
+  //   }, 15000);
+  //   return () => clearInterval(interval);
+  // }, [activeFilter, setActiveFilter]);
 
   const filteredData = useMemo(() => {
     let result: KpiItem[] = [];
@@ -111,7 +107,7 @@ const NewDashboardPage: React.FC = () => {
 
       <main className="flex-1 flex flex-col lg:flex-row overflow-hidden pb-10">
         <div className="flex-1 overflow-y-auto scrollbar-hide">
-          <div className="max-w-[2500px] mx-auto px-4 md:px-6 mt-4">
+          <div className="max-w-[2500px] mx-auto px-4 md:px-6">
             <DashboardFilters
               activeFilter={activeFilter as any}
               onFilterChange={(f) => setActiveFilter(f)}

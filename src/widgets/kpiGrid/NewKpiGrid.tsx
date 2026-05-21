@@ -78,24 +78,24 @@ export const NewKpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
     });
 
     return (
-      <div className="flex flex-col gap-4 max-w-full mx-auto p-4 md:p-6 rounded-3xl min-h-screen">
-        <div className='flex gap-4 justify-between items-stretch'>
-          <div className='flex flex-col gap-4 w-2/3'>
-            <div className='grid grid-cols-2 gap-4'>
+      <div className="flex flex-col gap-4 max-w-full mx-auto p-4 md:p-6 rounded-3xl h-full overflow-hidden">
+        <div className='flex flex-col 2xl:flex-row gap-4 justify-between items-stretch'>
+          <div className='flex flex-col gap-4 w-full 2xl:w-3/4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               {catSOP.map((category) => {
                 const catItems = groupedItems[category];
                 if (!catItems || catItems.length === 0) return null;
 
                   return (
-                    <div key={category} className="flex flex-col p-5 rounded-2xl border border-slate-700/50 shadow-lg">
-                      <div className="flex items-center gap-3 mb-5 pb-3 border-b border-slate-700/30">
+                    <div key={category} className="flex flex-col rounded-2xl border border-slate-700/50 shadow-lg">
+                      <div className="flex items-center bg-slate-200 rounded-tr-2xl rounded-tl-2xl p-5 gap-3 mb-5 pb-3 border-b border-slate-700/30">
                         <div className="w-2 h-6 bg-emerald-500 rounded-full"></div>
-                        <h2 className="text-lg font-bold text-slate-700">{category}</h2>
+                        <h2 className="text-md font-bold text-slate-700">{category}</h2>
                       </div>
 
-                      <div className="grid grid-cols-1 gap-5">
+                      <div className="grid grid-cols-1 gap-5 mx-5 mb-5">
                         {catItems.map(item => (
-                          <div key={item.id} className="h-72 transition-transform hover:scale-[1.02]">
+                          <div key={item.id} className="h-58 transition-transform hover:scale-[1.02]">
                             {renderChart(item)}
                           </div>
                         ))}
@@ -108,15 +108,15 @@ export const NewKpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
                 if (!catItems || catItems.length === 0) return null;
 
                   return (
-                    <div key={category} className="flex flex-col p-5 rounded-2xl border border-slate-700/50 shadow-lg">
-                      <div className="flex items-center gap-3 mb-5 pb-3 border-b border-slate-700/30">
+                    <div key={category} className="flex flex-col rounded-2xl border border-slate-700/50 shadow-lg">
+                      <div className="flex items-center bg-slate-200 rounded-tr-2xl rounded-tl-2xl p-5 gap-3 mb-5 pb-3 border-b border-slate-700/30">
                         <div className="w-2 h-6 bg-emerald-500 rounded-full"></div>
-                        <h2 className="text-lg font-bold text-slate-700">{category}</h2>
+                        <h2 className="text-md font-bold text-slate-700">{category}</h2>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-2 gap-5">
+                      <div className="grid  grid-cols-1 lg:grid-cols-2 md:grid-cols-2 xl:grid-cols-2 mx-5 mb-5 gap-5">
                         {catItems.map(item => (
-                          <div key={item.id} className="h-72 transition-transform hover:scale-[1.02]">
+                          <div key={item.id} className="h-58 transition-transform hover:scale-[1.02]">
                             {renderChart(item)}
                           </div>
                         ))}
@@ -130,15 +130,15 @@ export const NewKpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
                 if (!catItems || catItems.length === 0) return null;
 
                   return (
-                    <div key={category} className="flex flex-col p-5 rounded-2xl border border-slate-700/50 shadow-lg">
-                      <div className="flex items-center gap-3 mb-5 pb-3 border-b border-slate-700/30">
+                    <div key={category} className="flex flex-col rounded-2xl border border-slate-700/50 shadow-lg">
+                      <div className="flex items-center bg-slate-200 rounded-tr-2xl rounded-tl-2xl p-5 gap-3 mb-5 pb-3 border-b border-slate-700/30">
                         <div className="w-2 h-6 bg-emerald-500 rounded-full"></div>
-                        <h2 className="text-lg font-bold text-slate-700">{category}</h2>
+                        <h2 className="text-md font-bold text-slate-700">{category}</h2>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 mx-5 mb-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
                         {catItems.map(item => (
-                          <div key={item.id} className="h-80 transition-transform hover:scale-[1.02]">
+                          <div key={item.id} className="h-58 transition-transform hover:scale-[1.02]">
                             {renderChart(item)}
                           </div>
                         ))}
@@ -147,21 +147,21 @@ export const NewKpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
                   );
               })}
           </div>
-          <div className='w-1/3 flex flex-col'>
+          <div className='w-full 2xl:w-1/4 flex flex-col'>
             {catEP.map((category) => {
               const catItems = groupedItems[category];
               if (!catItems || catItems.length === 0) return null;
 
                 return (
-                  <div key={category} className="flex flex-col p-5 rounded-2xl border border-slate-700/50 shadow-lg flex-1 h-full">
-                    <div className="flex items-center gap-3 mb-5 pb-3 border-b border-slate-700/30">
+                  <div key={category} className="flex flex-col rounded-2xl border border-slate-700/50 shadow-lg flex-1 h-full">
+                    <div className="flex items-center bg-slate-200 rounded-tr-2xl rounded-tl-2xl p-5 gap-3 mb-5 pb-3 border-b border-slate-700/30">
                       <div className="w-2 h-6 bg-emerald-500 rounded-full"></div>
-                      <h2 className="text-lg font-bold text-slate-700">{category}</h2>
+                      <h2 className="text-md font-bold text-slate-700">{category}</h2>
                     </div>
 
-                    <div className="flex flex-col gap-5 flex-1 min-h-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 mx-5 mb-5 lg:grid-cols-3 2xl:flex 2xl:flex-col gap-5 2xl:flex-1 2xl:min-h-0">
                       {catItems.map(item => (
-                        <div key={item.id} className="flex-1 min-h-0 transition-transform hover:scale-[1.02]">
+                        <div key={item.id} className="h-56 2xl:h-66 transition-transform hover:scale-[1.02]">
                           {renderChart(item)}
                         </div>
                       ))}

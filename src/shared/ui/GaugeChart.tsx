@@ -25,18 +25,23 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   const segments = [
     { color: '#ef4444', label: 'Very Low', text: '#ffffff' },
     { color: '#f97316', label: 'Low', text: '#ffffff' },
-    { color: '#fcd34d', label: 'Moderate', text: '#111827' },
-    { color: '#fef08a', label: 'Good', text: '#111827' },
-    { color: '#86efac', label: 'High', text: '#111827' },
-    { color: '#22c55e', label: 'Very High', text: '#ffffff' }
+    { color: '#f8d358ff', label: 'Moderate', text: '#111827' },
+    { color: '#ffe62cff', label: 'Good', text: '#111827' },
+    { color: '#22c55e', label: 'High', text: '#111827' },
+    { color: '#28ff77ff', label: 'Very High', text: '#ffffff' }
   ];
 
   const gapAngle = 2.5; 
   const totalGapAngle = gapAngle * (segments.length - 1);
   const segmentAngle = (180 - totalGapAngle) / segments.length;
 
+  const activeIndex = Math.min(
+    Math.floor((Math.max(0, Math.min(100, value)) / 100) * segments.length), 
+    segments.length - 1
+  );
+
   return (
-    <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border transition-all hover:shadow-md hover:-translate-y-1 group w-full h-full relative overflow-hidden
+    <div className={`flex flex-col items-center justify-center bg-white rounded-2xl border transition-all hover:shadow-md hover:-translate-y-1 group w-full h-full relative overflow-hidden
       ${isCritical 
         ? 'border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.1)] animate-[pulse_2s_infinite]' 
         : isRealTime === true ? 'border-slate-300 shadow-[0_0_20px_rgba(16,185,129,0.1)]' : 'border-slate-100 shadow-sm'
@@ -48,28 +53,19 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
         </div>
       )}
 
-      <h3 className={`text-[12px] font-semibold transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center text-center
-        ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
-        {segments.map((segment, i) => {
-          // Calculate which segment the needle is in based on value
-          const activeIndex = Math.min(
-            Math.floor((Math.max(0, Math.min(100, value)) / 100) * segments.length), 
-            segments.length - 1
-          );
-          
-          if (i !== activeIndex) return null;
-          
-          return (
-            <span key={i} style={{ color: segment.color }}>{segment.label}</span>
-          )
-        })}
-      </h3>
+      <div style={{ backgroundColor: segments[activeIndex].color }} className='w-full'>
+        <h3 className={`text-[12px] font-semibold transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center text-center
+          ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
+          <span className='text-white'>{segments[activeIndex].label}</span>
+        </h3>
+      </div>
 
-      <div className="relative w-full max-w-[260px] flex items-center justify-center mt-2">
+      <div className="relative w-full max-w-[280px] px-2 pt-3 flex items-center justify-center mt-2 flex-1 min-h-0">
 
         <svg
-          viewBox={`0 0 ${radius * 2} ${radius + 15}`}
-          className="w-full h-auto drop-shadow-sm"
+          viewBox={`0 0 ${radius * 2} ${radius + 50}`}
+          className="w-full h-auto drop-shadow-sm max-h-full"
+          preserveAspectRatio="xMidYMid meet"
         >
           {/* Inner Light Background */}
           <path 
@@ -116,15 +112,24 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
             <circle cx={radius} cy={radius} r="7" fill="#1e293b" />
             <circle cx={radius} cy={radius} r="2.5" fill="#f8fafc" />
           </g>
+
+          {/* Value Text inside SVG — scales proportionally with chart */}
+          <text
+            x={radius}
+            y={radius + 38}
+            textAnchor="middle"
+            fill={isCritical ? '#b91c1c' : '#1e293b'}
+            fontSize="26"
+            fontWeight="900"
+            style={{ fontVariantNumeric: 'tabular-nums', fontFamily: 'inherit' }}
+          >
+            {value}%
+          </text>
         </svg>
 
-        {/* Value Display */}
-        <div className="absolute left-0 right-0 bottom-0 flex flex-col items-center">
-            <span className={`text-2xl font-black tabular-nums translate-y-[30px] ${isCritical ? 'text-red-700' : 'text-slate-900'}`}>{value}%</span>
-        </div>
       </div>
       
-      <div className="mt-7 text-center px-1 z-10 relative">
+      <div className="text-center px-1 z-10 relative pb-3">
         <h3 className={`text-[11px] font-black transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center 
           ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
           {label}

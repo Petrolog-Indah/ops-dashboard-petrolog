@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import DashboardPage from './pages/DashboardPage'
+// import DashboardPage from './pages/DashboardPage'
 import NewDashboardPage from './pages/NewDashboardPage'
 import DualChartExamplePage from './pages/DualChartExamplePage'
 import TrendChartPage from './pages/TrendChartPage'
@@ -18,33 +18,33 @@ function App() {
     return <TrendChartPage onBack={() => setView('dashboard')} />
   }
 
-  if (view === 'new_dashboard') {
-    return (
-      <div className="relative min-h-screen">
-        <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-3">
-           <button 
-             onClick={() => setView('dashboard')}
-             className="bg-white/90 backdrop-blur-md border border-slate-200 text-slate-900 px-4 py-3 rounded-2xl text-xs font-black shadow-xl transition-all hover:scale-105 active:scale-95"
-           >
-             Kembali ke Classic Dashboard
-           </button>
-        </div>
-        <NewDashboardPage />
-      </div>
-    );
-  }
+  // if (view === 'new_dashboard') {
+  //   return (
+  //     <div className="relative min-h-screen">
+  //       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-3">
+  //          <button 
+  //            onClick={() => setView('dashboard')}
+  //            className="bg-white/90 backdrop-blur-md border border-slate-200 text-slate-900 px-4 py-3 rounded-2xl text-xs font-black shadow-xl transition-all hover:scale-105 active:scale-95"
+  //          >
+  //            Kembali ke Classic Dashboard
+  //          </button>
+  //       </div>
+  //       <NewDashboardPage />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="relative min-h-screen">
       {/* Floating Shortcut Button */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-3">
-        <button 
+        {/* <button 
           onClick={() => setView('new_dashboard')}
           className="bg-slate-900 border border-slate-700 text-white px-4 py-3 rounded-2xl text-xs font-black shadow-xl transition-all hover:scale-110 active:scale-95 flex items-center gap-2 group"
         >
           <span className="text-lg group-hover:rotate-12 transition-transform">📱</span>
           <span className="uppercase tracking-widest">New Grid Design</span>
-        </button>
+        </button> */}
 
         {/* <button 
           onClick={() => setView('example')}
@@ -67,7 +67,7 @@ function App() {
         </button> */}
       </div>
 
-      <DashboardPage />
+      <NewDashboardPage />
     </div>
   )
 }

@@ -70,7 +70,7 @@ export const getStatsMapping = (
             condition: availabilityStats,
             label: 'Utilisation Rate',
             value: availabilityStats ? Math.round(availabilityStats.utilisation_rate) : 0,
-            subLabel: availabilityStats ? `${availabilityStats.on_job} / ${availabilityStats.total} Unit Report` : '',
+            subLabel: availabilityStats ? `${availabilityStats.on_job} / ${availabilityStats.on_job + availabilityStats.standby} Unit Report` : '',
         },
         {
             condition: fuelEfficiencyStats,

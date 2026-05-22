@@ -179,7 +179,7 @@ export const NewKpiGrid: React.FC<KpiGridProps> = ({ items, activeFilter }) => {
   const GRID_CONFIG: Record<string, { cols: number; maxWidth: string }> = {
     'ALL': { cols: 8, maxWidth: 'max-w-full' },
     'SOP': { cols: 2, maxWidth: 'max-w-full' },
-    'QHSE': { cols: 4, maxWidth: 'max-w-full' },
+    'QHSE': { cols: 2, maxWidth: 'max-w-full' },
     'Performance Effectiveness': { cols: 5, maxWidth: 'max-w-full' },
     'Efficiency & Productivity': { cols: 3, maxWidth: 'max-w-full' },
   };

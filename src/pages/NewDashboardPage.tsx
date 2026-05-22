@@ -30,15 +30,15 @@ const NewDashboardPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [fetchAllStats]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const filterValues: FilterType[] = DASHBOARD_FILTERS.map(f => f.value);
-      const currentIndex = filterValues.indexOf(activeFilter);
-      const nextIndex = currentIndex === filterValues.length - 1 ? 0 : currentIndex + 1;
-      setActiveFilter(filterValues[nextIndex]);
-    }, 15000);
-    return () => clearInterval(interval);
-  }, [activeFilter, setActiveFilter]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const filterValues: FilterType[] = DASHBOARD_FILTERS.map(f => f.value);
+  //     const currentIndex = filterValues.indexOf(activeFilter);
+  //     const nextIndex = currentIndex === filterValues.length - 1 ? 0 : currentIndex + 1;
+  //     setActiveFilter(filterValues[nextIndex]);
+  //   }, 15000);
+  //   return () => clearInterval(interval);
+  // }, [activeFilter, setActiveFilter]);
 
   const filteredData = useMemo(() => {
     let result: KpiItem[] = [];

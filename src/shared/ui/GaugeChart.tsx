@@ -54,9 +54,9 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
       )}
 
       <div style={{ backgroundColor: segments[activeIndex].color }} className='w-full'>
-        <h3 className={`text-[12px] font-semibold transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center text-center
+        <h3 className={`text-[12px] font-semibold transition-colors uppercase tracking-tight leading-4 h-14 flex items-center justify-center text-center
           ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
-          <span className='text-slate-900 font-bold text-[16px]'>{segments[activeIndex].label}</span>
+          <span className='text-black font-bold text-[24px]'>{segments[activeIndex].label}</span>
         </h3>
       </div>
 
@@ -119,8 +119,8 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
             y={radius + 38}
             textAnchor="middle"
             fill={isCritical ? '#b91c1c' : '#1e293b'}
-            fontSize="26"
-            fontWeight="900"
+            fontSize="30"
+            fontWeight="750"
             style={{ fontVariantNumeric: 'tabular-nums', fontFamily: 'inherit' }}
           >
             {value}%
@@ -130,11 +130,11 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
       </div>
       
       <div className="text-center px-1 z-10 relative pb-3">
-        <h3 className={`text-[11px] font-black transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center 
+        <h3 className={`text-[16px] font-black transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center 
           ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
           {label}
         </h3>
-        {subLabel && <p className={`text-[10px] font-bold mt-1 text-center ${isCritical ? 'text-red-400' : 'text-slate-400'}`}>{subLabel}</p>}
+        {subLabel && <p className={`text-[12px] font-bold mt-1 text-center ${isCritical ? 'text-red-400' : 'text-slate-400'}`}>{subLabel}</p>}
       </div>
     </div>
   );

@@ -56,7 +56,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
       <div style={{ backgroundColor: segments[activeIndex].color }} className='w-full'>
         <h3 className={`text-[12px] font-semibold transition-colors uppercase tracking-tight leading-4 h-8 flex items-center justify-center text-center
           ${isCritical ? 'text-red-800' : 'text-slate-800 group-hover:text-emerald-700'}`}>
-          <span className='text-white'>{segments[activeIndex].label}</span>
+          <span className='text-slate-900 font-bold text-[16px]'>{segments[activeIndex].label}</span>
         </h3>
       </div>
 

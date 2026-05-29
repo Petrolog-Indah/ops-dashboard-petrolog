@@ -32,7 +32,6 @@ export async function fetchP2HCompliance(month: number, year: number): Promise<P
 
     return {
         period:         raw.period,
-        activity:       raw.activity,
         count:          totalRecords,
         p2h_percentage: totalRecords > 0 ? Math.round((p2hChecked / totalRecords) * 100) : 0,
         tbm_percentage: totalRecords > 0 ? Math.round((tbmChecked / totalRecords) * 100) : 0,

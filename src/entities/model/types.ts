@@ -117,7 +117,6 @@ export interface P2HToolboxCompliance {
     start: string;
     end: string;
   };
-  activity: string;
   count: number;
   p2h_percentage: number;   
   tbm_percentage: number;   

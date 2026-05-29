@@ -24,7 +24,8 @@ import { fetchSopCompliance } from '../api/sopCompliance';
 import { fetchSpeedCompliance } from '../api/speedCompliance';
 import { fetchDashcam } from '../api/dashcam';
 import { fetchMetricHistory } from '../../shared/api/historicalApi';
-import { fetchP2HCompliance } from '../api/p2hTbm';
+// import { fetchP2HCompliance } from '../api/p2hTbm';
+import { fetchP2HComplianceNew } from '../api/p2hTbmNew';
 
 interface KpiState {
   // Data Stats
@@ -58,6 +59,15 @@ interface KpiState {
 
 const monthName = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 const currentMonthName = monthName[new Date().getMonth()];
+
+const now = new Date();
+
+const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+const formatDate = (date: Date) => {
+  return date.toISOString().split('T')[0];
+};
 
 export const useKpiStore = create<KpiState>((set, get) => ({
   stats: {
@@ -116,7 +126,8 @@ export const useKpiStore = create<KpiState>((set, get) => ({
         fetchSopCompliance(),
         fetchSpeedCompliance(),
         fetchDashcam(),
-        fetchP2HCompliance(new Date().getMonth() + 1, new Date().getFullYear()),
+        // fetchP2HCompliance(new Date().getMonth() + 1, new Date().getFullYear()),
+        fetchP2HComplianceNew(formatDate(startOfMonth), formatDate(endOfMonth))
       ]);
 
       set({

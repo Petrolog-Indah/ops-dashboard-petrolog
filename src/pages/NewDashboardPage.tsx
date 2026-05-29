@@ -44,7 +44,6 @@ const NewDashboardPage: React.FC = () => {
     let result: KpiItem[] = [];
 
     if (activeFilter === 'ALL') {
-      // Gunakan DETAILED_KPI_DATA agar semua kategori (termasuk QHSE) tampil
       result = [...DETAILED_KPI_DATA];
     } else {
       result = DETAILED_KPI_DATA.filter(item => item.category === activeFilter);

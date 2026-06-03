@@ -91,7 +91,7 @@ export const useKpiStore = create<KpiState>((set, get) => ({
 
   setSelectedMonth: (month) => {
     set({ selectedMonth: month });
-    if (month !== 'April') { // Sesuaikan dengan bulan berjalan di project
+    if (month !== currentMonthName) { 
       get().fetchHistoricalData(month);
     } else {
       set({ historicalData: [] });
@@ -101,7 +101,6 @@ export const useKpiStore = create<KpiState>((set, get) => ({
   setActiveFilter: (filter) => set({ activeFilter: filter }),
 
   fetchAllStats: async () => {
-    // Kita tidak set isLoading(true) di sini untuk menghindari flicker saat polling
     try {
       const [
         cctv, 

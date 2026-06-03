@@ -66,7 +66,7 @@ const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
 const formatDate = (date: Date) => {
-  return date.toISOString().split('T')[0];
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 };
 
 export const useKpiStore = create<KpiState>((set, get) => ({
@@ -153,15 +153,48 @@ export const useKpiStore = create<KpiState>((set, get) => ({
     }
   },
 
-  fetchHistoricalData: async (_month) => {
+  fetchHistoricalData: async (monthStr) => {
     set({ isLoading: true });
     try {
-      const res = await Promise.all([
-        fetchMetricHistory('CCTV Online'),
-        fetchMetricHistory('Billed Jetty MTD'),
-        fetchMetricHistory('Unit Valid Lincense'),
-        fetchMetricHistory('Within Geofence')
-      ]);
+      const monthIndex = monthName.indexOf(monthStr);
+      if (monthIndex === -1) {
+          set({ historicalData: [], isLoading: false });
+          return;
+      }
+      
+      const year = new Date().getFullYear();
+      // start of month
+      const start = new Date(year, monthIndex, 1);
+      // end of month
+      const end = new Date(year, monthIndex + 1, 0);
+
+      const startDateStr = formatDate(start);
+      const endDateStr = formatDate(end);
+
+      const metrics = [
+        'CCTV Online',
+        'Billed Jetty MTD',
+        'Unit Valid License',
+        'Fit Rate',
+        'Within Geofence',
+        'Commercial Rate',
+        'Utilisation Rate',
+        'Fuel Efficiency',
+        'SOP Compliance',
+        'Speed-Limit Compliance',
+        'Speed Limit Compliance', // Fallback utk DB yg typo
+        'Dashcam Installed',
+        'Dashcam Online',
+        'Safe Driving Index',
+        'Unsafe Behavior Dashcam', // Fallback utk DB yg typo
+        'P2H Compliance',
+        'TBM Compliance'
+      ];
+
+      const res = await Promise.all(
+        metrics.map(metric => fetchMetricHistory(metric, startDateStr, endDateStr))
+      );
+      
       set({ historicalData: res.flat(), isLoading: false });
     } catch (err) {
       set({ error: (err as Error).message, isLoading: false });

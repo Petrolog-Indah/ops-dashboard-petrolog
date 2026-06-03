@@ -79,12 +79,18 @@ const NewDashboardPage: React.FC = () => {
 
     if (historicalData.length > 0) {
       result = result.map(item => {
-        const history = historicalData.find(h => h.metric_name === item.label);
+        const history = historicalData.find(h => {
+          if (h.metricName === item.label) return true;
+          // Fallback utk DB typos
+          if (item.label === 'Speed-Limit Compliance' && h.metricName === 'Speed Limit Compliance') return true;
+          if (item.label === 'Safe Driving Index' && h.metricName === 'Unsafe Behavior Dashcam') return true;
+          return false;
+        });
         if (history) {
           return {
             ...item,
             value: history.value,
-            subLabel: history.sub_label,
+            subLabel: history.subLabel,
             isRealTime: false
           };
         }

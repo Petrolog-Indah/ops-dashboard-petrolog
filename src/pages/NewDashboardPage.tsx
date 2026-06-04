@@ -1,15 +1,22 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { DashboardHeader } from '../widgets/header/Header';
 import { NewKpiGrid } from '../widgets/kpiGrid/NewKpiGrid';
 import { DASHBOARD_FILTERS, DashboardFilters, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
+import { VisibilitySidebar } from '../widgets/visibilitySidebar/VisibilitySidebar';
 import { DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
 import { getStatsMapping } from '../shared/data/stats';
 import { useKpiStore } from '../entities/store/useKpiStore';
+import { useCardVisibility } from '../entities/store/useCardVisibility';
 import { POLLING_CONFIG } from '../shared/config/polling';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const NewDashboardPage: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { visibleIds } = useCardVisibility();
+
   const { 
     stats, 
     selectedMonth, 
@@ -81,7 +88,6 @@ const NewDashboardPage: React.FC = () => {
       result = result.map(item => {
         const history = historicalData.find(h => {
           if (h.metricName === item.label) return true;
-          // Fallback utk DB typos
           if (item.label === 'Speed-Limit Compliance' && h.metricName === 'Speed Limit Compliance') return true;
           if (item.label === 'Safe Driving Index' && h.metricName === 'Unsafe Behavior Dashcam') return true;
           return false;
@@ -98,21 +104,39 @@ const NewDashboardPage: React.FC = () => {
       });
     }
 
+    if (isAuthenticated) {
+      const ids = visibleIds();
+      result = result.filter(item => ids.includes(item.id));
+    }
+
     return result;
-  }, [activeFilter, stats, selectedMonth, historicalData]);
+  }, [activeFilter, stats, selectedMonth, historicalData, isAuthenticated, visibleIds]);
 
   return (
     <div className="min-h-screen text-slate-200 flex flex-col font-sans selection:bg-emerald-500/30">
-      {/* Menggunakan header yang sama, namun parent ini background-nya gelap */}
       <DashboardHeader
         selectedMonth={selectedMonth}
         onMonthChange={setSelectedMonth}
-        lastUpdate={stats.jetty?.lastUpdate}
       />
 
-      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden pb-10">
+      <main className="relative flex-1 flex flex-col lg:flex-row overflow-hidden pb-10">
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[2500px] mx-auto px-4 md:px-6">
+            {isAuthenticated && (
+              <div className="fixed right-2 bottom-2 z-50 flex items-center justify-end mb-2 px-2 sm:px-6">
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-500 hover:text-emerald-600 hover:border-emerald-200 hover:bg-emerald-50 text-[10px] font-bold uppercase tracking-wider transition-all shadow-sm"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  Atur Kartu
+                </button>
+              </div>
+            )}
+
             <DashboardFilters
               activeFilter={activeFilter as any}
               onFilterChange={(f) => setActiveFilter(f)}
@@ -135,6 +159,8 @@ const NewDashboardPage: React.FC = () => {
           </div>
         </div>
       </main>
+
+      <VisibilitySidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <footer className="h-1.5 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600 shadow-inner mt-auto" />
     </div>

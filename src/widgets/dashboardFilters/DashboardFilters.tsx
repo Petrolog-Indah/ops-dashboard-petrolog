@@ -22,7 +22,7 @@ export const DashboardFilters: React.FC<DashboardFiltersProps> = ({
 }) => {
 
   return (
-    <div className="px-2 sm:px-6 mb-2">
+    <div className="px-2 sm:px-6 mt-5">
       {/* Centered on desktop, scrollable on mobile */}
       <div className="flex justify-center">
         <div className="flex items-center gap-1.5 lg:gap-2 px-3 py-1 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-x-auto scrollbar-hide lg:flex-wrap lg:overflow-visible lg:w-fit">

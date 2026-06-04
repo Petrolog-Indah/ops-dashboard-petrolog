@@ -3,7 +3,7 @@ import { loginApi, getProfileApi, type LoginResponse } from '../entities/api/aut
 
 interface User {
   id: string;
-  email: string;
+  email?: string;
   name: string;
   role?: string;
 }

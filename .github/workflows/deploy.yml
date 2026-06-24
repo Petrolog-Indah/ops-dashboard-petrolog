@@ -62,27 +62,32 @@ jobs:
           rm -rf ${{ env.BACKUP_PATH }}
           cp -r ${{ env.VPS_PROJECT_PATH }} ${{ env.BACKUP_PATH }} 2>/dev/null || true
 
+          echo "Stopping previous containers..."
           cd ${{ env.VPS_PROJECT_PATH }}
+          docker compose down --remove-orphans 2>/dev/null || true
+
+          echo "Cleaning old files..."
+          find ${{ env.VPS_PROJECT_PATH }} -mindepth 1 -maxdepth 1 \
+            ! -name '.env' \
+            -exec rm -rf {} +
 
           echo "Sync latest code..."
           tar -cf - \
             --exclude='.git' \
             --exclude='node_modules' \
             --exclude='dist' \
-            -C ${{ github.workspace }} . | tar -xf -
+            -C ${{ github.workspace }} . | tar -xf - -C ${{ env.VPS_PROJECT_PATH }}
 
           echo "Creating .env file..."
-          cat > .env << EOF
-          VITE_API_URL=${VITE_API_URL}
-          VITE_HISTORICAL_API_URL=${VITE_HISTORICAL_API_URL}
-          VITE_P2H_URL=${VITE_P2H_URL}
-          VITE_P2H_API_KEY=${VITE_P2H_API_KEY}
-          EOF
-
-          echo "Stopping previous containers..."
-          docker compose down --remove-orphans
+          cat > ${{ env.VPS_PROJECT_PATH }}/.env << EOF
+VITE_API_URL=${VITE_API_URL}
+VITE_HISTORICAL_API_URL=${VITE_HISTORICAL_API_URL}
+VITE_P2H_URL=${VITE_P2H_URL}
+VITE_P2H_API_KEY=${VITE_P2H_API_KEY}
+EOF
 
           echo "Deploying..."
+          cd ${{ env.VPS_PROJECT_PATH }}
           docker compose up -d --build || (
             echo "Deploy failed"
             echo "Rollback started..."

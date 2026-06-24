@@ -1,0 +1,22 @@
+services:
+  ops-dashboard:
+    build:
+      context: .
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+        VITE_HISTORICAL_API_URL: ${VITE_HISTORICAL_API_URL}
+        VITE_P2H_URL: ${VITE_P2H_URL}
+        VITE_P2H_API_KEY: ${VITE_P2H_API_KEY}
+
+    container_name: ops-dashboard
+    restart: unless-stopped
+
+    ports:
+      - "3001:80"
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

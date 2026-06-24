@@ -8,6 +8,9 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  optimizeDeps: {
+    include: ['leaflet']
+  },
   server: {
     allowedHosts: [
       'cca5-182-253-97-194.ngrok-free.app'

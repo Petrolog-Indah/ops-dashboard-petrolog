@@ -73,43 +73,43 @@ const DualNeedleGauge = ({ primaryValue, secondaryValue, primaryLabel, secondary
 // --- IDE 2: SIDE-BY-SIDE MINI GAUGES ---
 // Jika dua data beda metrik dan tidak bisa pakai 1 sumbu yang sama.
 // Menyatukan 2 gauge kecil tapi full jarum dalam 1 card panjang.
-const SideBySideMiniGauges = ({ primaryValue, secondaryValue, primaryLabel, secondaryLabel }: { primaryValue: number, secondaryValue: number, primaryLabel: string, secondaryLabel: string }) => {
-  const MiniGauge = ({ value, label }: { value: number, label: string }) => {
-    const radius = 60;
-    const strokeWidth = 14;
-    const normalizedRadius = radius - strokeWidth / 2;
-    const rotation = (value / 100) * 180 - 90;
+const MiniGauge = ({ value, label }: { value: number, label: string }) => {
+  const radius = 60;
+  const strokeWidth = 14;
+  const normalizedRadius = radius - strokeWidth / 2;
+  const rotation = (value / 100) * 180 - 90;
 
-    const segments = ['#ef4444', '#f97316', '#fcd34d', '#fef08a', '#86efac', '#22c55e'];
-    const gapAngle = 2.5;
-    const totalGapAngle = gapAngle * (segments.length - 1);
-    const segmentAngle = (180 - totalGapAngle) / segments.length;
+  const segments = ['#ef4444', '#f97316', '#fcd34d', '#fef08a', '#86efac', '#22c55e'];
+  const gapAngle = 2.5;
+  const totalGapAngle = gapAngle * (segments.length - 1);
+  const segmentAngle = (180 - totalGapAngle) / segments.length;
 
-    return (
-      <div className="flex flex-col items-center flex-1">
-        <svg viewBox={`0 0 ${radius * 2} ${radius + 10}`} className="w-full max-w-[120px] h-auto">
-          {segments.map((color, i) => {
-            const startAngle = 180 + i * (segmentAngle + gapAngle);
-            const endAngle = startAngle + segmentAngle;
-            const x1 = radius + normalizedRadius * Math.cos(startAngle * Math.PI / 180);
-            const y1 = radius + normalizedRadius * Math.sin(startAngle * Math.PI / 180);
-            const x2 = radius + normalizedRadius * Math.cos(endAngle * Math.PI / 180);
-            const y2 = radius + normalizedRadius * Math.sin(endAngle * Math.PI / 180);
-            return <path key={i} d={`M ${x1} ${y1} A ${normalizedRadius} ${normalizedRadius} 0 0 1 ${x2} ${y2}`} fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="butt" />
-          })}
-          <g style={{ transform: `rotate(${rotation}deg)`, transformOrigin: `${radius}px ${radius}px` }}>
-            <polygon points={`${radius - 2},${radius} ${radius + 2},${radius} ${radius},${radius - normalizedRadius + 8}`} fill="#1e293b" />
-          </g>
-          <circle cx={radius} cy={radius} r="4" fill="#1e293b" />
-        </svg>
-        <div className="mt-1 text-center -translate-y-2">
-          <span className="text-lg font-black text-slate-800">{value}%</span>
-          <span className="block text-[9px] font-bold text-slate-500 uppercase">{label}</span>
-        </div>
+  return (
+    <div className="flex flex-col items-center flex-1">
+      <svg viewBox={`0 0 ${radius * 2} ${radius + 10}`} className="w-full max-w-[120px] h-auto">
+        {segments.map((color, i) => {
+          const startAngle = 180 + i * (segmentAngle + gapAngle);
+          const endAngle = startAngle + segmentAngle;
+          const x1 = radius + normalizedRadius * Math.cos(startAngle * Math.PI / 180);
+          const y1 = radius + normalizedRadius * Math.sin(startAngle * Math.PI / 180);
+          const x2 = radius + normalizedRadius * Math.cos(endAngle * Math.PI / 180);
+          const y2 = radius + normalizedRadius * Math.sin(endAngle * Math.PI / 180);
+          return <path key={i} d={`M ${x1} ${y1} A ${normalizedRadius} ${normalizedRadius} 0 0 1 ${x2} ${y2}`} fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="butt" />
+        })}
+        <g style={{ transform: `rotate(${rotation}deg)`, transformOrigin: `${radius}px ${radius}px` }}>
+          <polygon points={`${radius - 2},${radius} ${radius + 2},${radius} ${radius},${radius - normalizedRadius + 8}`} fill="#1e293b" />
+        </g>
+        <circle cx={radius} cy={radius} r="4" fill="#1e293b" />
+      </svg>
+      <div className="mt-1 text-center -translate-y-2">
+        <span className="text-lg font-black text-slate-800">{value}%</span>
+        <span className="block text-[9px] font-bold text-slate-500 uppercase">{label}</span>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
+const SideBySideMiniGauges = ({ primaryValue, secondaryValue, primaryLabel, secondaryLabel }: { primaryValue: number, secondaryValue: number, primaryLabel: string, secondaryLabel: string }) => {
   return (
     <div className="flex flex-col p-5 bg-white rounded-2xl border border-slate-100 shadow-sm w-full max-w-[400px]">
       <h3 className="text-sm font-bold text-slate-800 mb-4 whitespace-nowrap text-center">Side-by-Side Detail</h3>

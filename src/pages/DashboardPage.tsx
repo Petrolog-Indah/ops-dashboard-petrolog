@@ -90,12 +90,12 @@ const DashboardPage: React.FC = () => {
     // Inject historical data if month is not current
     if (historicalData.length > 0) {
       result = result.map(item => {
-        const history = historicalData.find(h => h.metric_name === item.label);
+        const history = historicalData.find(h => h.metricName === item.label);
         if (history) {
           return {
             ...item,
-            value: history.value,
-            subLabel: history.sub_label,
+            value: typeof history.value === 'number' ? history.value : Number(history.value) || 0,
+            subLabel: history.subLabel,
             isRealTime: false
           };
         }
@@ -118,7 +118,7 @@ const DashboardPage: React.FC = () => {
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="max-w-[2500px] mx-auto">
             <DashboardFilters
-              activeFilter={activeFilter as any}
+              activeFilter={activeFilter}
               onFilterChange={(f) => setActiveFilter(f)}
             />
             <AnimatePresence mode="wait">

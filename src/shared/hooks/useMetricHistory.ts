@@ -18,9 +18,9 @@ export function useMetricHistory(metricName: string, startDate?: string, endDate
                     setData(result);
                     setError(null);
                 }
-            } catch (err: any) {
+            } catch (err) {
                 if (isMounted) {
-                    setError(err);
+                    setError(err instanceof Error ? err : new Error(String(err)));
                 }
             } finally {
                 if (isMounted) {
@@ -55,9 +55,9 @@ export function useMetricMoM(metricName: string, targetMonth?: string) {
                     setData(result);
                     setError(null);
                 }
-            } catch (err: any) {
+            } catch (err) {
                 if (isMounted) {
-                    setError(err);
+                    setError(err instanceof Error ? err : new Error(String(err)));
                 }
             } finally {
                 if (isMounted) {

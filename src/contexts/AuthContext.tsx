@@ -22,25 +22,31 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('auth_token'));
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => !!localStorage.getItem('auth_token'));
 
   useEffect(() => {
+    let isMounted = true;
     const storedToken = localStorage.getItem('auth_token');
     if (storedToken) {
       getProfileApi(storedToken)
         .then((profile) => {
-          setUser(profile);
-          setToken(storedToken);
+          if (isMounted) {
+            setUser(profile);
+            setToken(storedToken);
+          }
         })
         .catch(() => {
-          localStorage.removeItem('auth_token');
-          setToken(null);
-          setUser(null);
+          if (isMounted) {
+            localStorage.removeItem('auth_token');
+            setToken(null);
+            setUser(null);
+          }
         })
-        .finally(() => setIsLoading(false));
-    } else {
-      setIsLoading(false);
+        .finally(() => {
+          if (isMounted) setIsLoading(false);
+        });
     }
+    return () => { isMounted = false; };
   }, []);
 
   const login = useCallback(async (username: string, password: string) => {

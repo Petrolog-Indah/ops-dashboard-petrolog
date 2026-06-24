@@ -95,7 +95,7 @@ const NewDashboardPage: React.FC = () => {
         if (history) {
           return {
             ...item,
-            value: history.value,
+            value: typeof history.value === 'number' ? history.value : Number(history.value) || 0,
             subLabel: history.subLabel,
             isRealTime: false
           };
@@ -138,7 +138,7 @@ const NewDashboardPage: React.FC = () => {
             )}
 
             <DashboardFilters
-              activeFilter={activeFilter as any}
+              activeFilter={activeFilter}
               onFilterChange={(f) => setActiveFilter(f)}
             />
             

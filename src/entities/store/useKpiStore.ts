@@ -13,6 +13,7 @@ import type {
   P2HToolboxCompliance
 } from '../model/types';
 import type { FilterType } from '../../widgets/dashboardFilters/DashboardFilters';
+import type { DailySnapshot } from '../../shared/api/historicalApi';
 import { fetchCCTVStats } from '../api/cctv';
 import { fetchJettyStats } from '../api/jetty';
 import { fetchValidLicense } from '../api/validLicense';
@@ -46,7 +47,7 @@ interface KpiState {
   // UI State
   selectedMonth: string;
   activeFilter: FilterType;
-  historicalData: any[];
+  historicalData: DailySnapshot[];
   isLoading: boolean;
   error: string | null;
 

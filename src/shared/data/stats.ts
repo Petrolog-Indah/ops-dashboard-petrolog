@@ -1,27 +1,48 @@
-import type { JettyMonthData } from '../../entities/model/types';
+import type { 
+    JettyMonthData, 
+    CCTVStats, 
+    JettyStats, 
+    validLicense, 
+    FitRate, 
+    Geofence, 
+    Availability, 
+    fuelEfficiency, 
+    SopCompliance, 
+    speedCompliance, 
+    Dashcam, 
+    P2HToolboxCompliance 
+} from '../../entities/model/types';
+
+interface StatsMappingItem {
+    condition: boolean;
+    label: string;
+    value: number | (() => number);
+    subLabel: string | (() => string);
+    trend?: fuelEfficiency['trend'];
+}
 
 export const getStatsMapping = (
-    cctvStats: any,
-    jettyStats: any,
-    validLicenseStats: any,
-    fitRateStats: any,
-    geofenceStats: any,
-    availabilityStats: any,
+    cctvStats: CCTVStats | null,
+    jettyStats: JettyStats | null,
+    validLicenseStats: validLicense | null,
+    fitRateStats: FitRate | null,
+    geofenceStats: Geofence | null,
+    availabilityStats: Availability | null,
     selectedMonth: string,
-    fuelEfficiencyStats: any,
-    sopComplianceStats: any,
-    speedComplianceStats: any,
-    dashcamStats: any,
-    p2hTbmCompliance: any,
-) => [
+    fuelEfficiencyStats: fuelEfficiency | null,
+    sopComplianceStats: SopCompliance | null,
+    speedComplianceStats: speedCompliance | null,
+    dashcamStats: Dashcam | null,
+    p2hTbmCompliance: P2HToolboxCompliance | null,
+): StatsMappingItem[] => [
         {
-            condition: cctvStats,
+            condition: !!cctvStats,
             label: 'CCTV Online',
             value: cctvStats ? Math.round(cctvStats.percentage) : 0,
             subLabel: cctvStats ? `${cctvStats.online} / ${cctvStats.total} Online` : '',
         },
         {
-            condition: jettyStats && jettyStats.data,
+            condition: !!(jettyStats && jettyStats.data),
             label: 'Billed Jetty MTD',
             value: () => {
                 if (jettyStats && jettyStats.data) {
@@ -43,74 +64,74 @@ export const getStatsMapping = (
             },
         },
         {
-            condition: validLicenseStats,
+            condition: !!validLicenseStats,
             label: 'Unit Valid License',
             value: validLicenseStats ? Math.round(validLicenseStats.percentage_valid) : 0,
             subLabel: validLicenseStats ? `${validLicenseStats.valid_armada} / ${validLicenseStats.total_armada} Valid Lincense` : '',
         },
         {
-            condition: fitRateStats,
+            condition: !!fitRateStats,
             label: 'Fit Rate',
             value: fitRateStats ? Math.round(fitRateStats.fit_rate_percentage) : 0,
             subLabel: fitRateStats ? `${fitRateStats.fit_unit} / ${fitRateStats.total_unit} Fit` : '',
         },
         {
-            condition: geofenceStats,
+            condition: !!geofenceStats,
             label: 'Within Geofence',
             value: geofenceStats ? Math.round(geofenceStats.percentage) : 0,
             subLabel: geofenceStats ? `${geofenceStats.units_in_zone} / ${geofenceStats.total_units} Units In Zone` : '',
         },
         {
-            condition: availabilityStats,
+            condition: !!availabilityStats,
             label: 'Commercial Rate',
             value: availabilityStats ? Math.round(availabilityStats.commercial_rate) : 0,
             subLabel: availabilityStats ? `${availabilityStats.on_job + availabilityStats.standby} / ${availabilityStats.total} Unit Report` : '',
         },
         {
-            condition: availabilityStats,
+            condition: !!availabilityStats,
             label: 'Utilisation Rate',
             value: availabilityStats ? Math.round(availabilityStats.utilisation_rate) : 0,
             subLabel: availabilityStats ? `${availabilityStats.on_job} / ${availabilityStats.on_job + availabilityStats.standby} Unit Report` : '',
         },
         {
-            condition: fuelEfficiencyStats,
+            condition: !!fuelEfficiencyStats,
             label: 'Fuel Efficiency',
             value: fuelEfficiencyStats ? Math.round(fuelEfficiencyStats.fuel_efficiency) : 0,
             subLabel: fuelEfficiencyStats ? `From ${fuelEfficiencyStats.total_active_vehicles} unit active` : '',
             trend: fuelEfficiencyStats?.trend
         },
         {
-            condition: sopComplianceStats,
+            condition: !!sopComplianceStats,
             label: 'SOP Compliance',
             value: sopComplianceStats ? Math.round(sopComplianceStats.percentage) : 0,
             subLabel: sopComplianceStats ? `${sopComplianceStats.total_sop_terlaksana} / ${sopComplianceStats.total_absensi} SOP Terlaksana` : '',
         },
         {
-            condition: speedComplianceStats,
+            condition: !!speedComplianceStats,
             label: 'Speed-Limit Compliance',
             value: speedComplianceStats ? Math.round(speedComplianceStats.compliance_percentage) : 0,
             subLabel: speedComplianceStats ? `${speedComplianceStats.total_violating_units} Units Overspeed` : '',
         },
         {
-            condition: dashcamStats,
+            condition: !!dashcamStats,
             label: 'Dashcam Installed',
             value: dashcamStats ? Math.round(dashcamStats.metrics.install_percentage) : 0,
             subLabel: dashcamStats ? `${dashcamStats.unit_terpasang} Dashcam` : '',
         },
         {
-            condition: dashcamStats,
+            condition: !!dashcamStats,
             label: 'Dashcam Online',
             value: dashcamStats ? Math.round(dashcamStats.metrics.online_percentage) : 0,
             subLabel: dashcamStats ? `${dashcamStats.unit_online} / ${dashcamStats.unit_terpasang} Online` : '',
         },
         {
-            condition: dashcamStats,
+            condition: !!dashcamStats,
             label: 'Safe Driving Index',
             value: dashcamStats ? Math.round(dashcamStats.metrics.safety_percentage) : 0,
             subLabel: dashcamStats ? `${dashcamStats.unsafe_behaviour_alert} Alert Today` : '',
         },
         {
-            condition: p2hTbmCompliance,
+            condition: !!p2hTbmCompliance,
             label: 'P2H Compliance',
             value: p2hTbmCompliance ? p2hTbmCompliance.p2h_percentage : 0,
             subLabel: p2hTbmCompliance
@@ -118,7 +139,7 @@ export const getStatsMapping = (
                 : '',
         },
         {
-            condition: p2hTbmCompliance,
+            condition: !!p2hTbmCompliance,
             label: 'TBM Compliance',
             value: p2hTbmCompliance ? p2hTbmCompliance.tbm_percentage : 0,
             subLabel: p2hTbmCompliance

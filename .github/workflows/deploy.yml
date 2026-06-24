@@ -79,12 +79,12 @@ jobs:
             -C ${{ github.workspace }} . | tar -xf - -C ${{ env.VPS_PROJECT_PATH }}
 
           echo "Creating .env file..."
-          cat > ${{ env.VPS_PROJECT_PATH }}/.env << EOF
-VITE_API_URL=${VITE_API_URL}
-VITE_HISTORICAL_API_URL=${VITE_HISTORICAL_API_URL}
-VITE_P2H_URL=${VITE_P2H_URL}
-VITE_P2H_API_KEY=${VITE_P2H_API_KEY}
-EOF
+          printf '%s\n' \
+            "VITE_API_URL=${VITE_API_URL}" \
+            "VITE_HISTORICAL_API_URL=${VITE_HISTORICAL_API_URL}" \
+            "VITE_P2H_URL=${VITE_P2H_URL}" \
+            "VITE_P2H_API_KEY=${VITE_P2H_API_KEY}" \
+            > ${{ env.VPS_PROJECT_PATH }}/.env
 
           echo "Deploying..."
           cd ${{ env.VPS_PROJECT_PATH }}

@@ -8,8 +8,8 @@ on:
 
 env:
   NODE_VERSION: '20'
-  VPS_PROJECT_PATH: /home/contributor/ops-dashboard
-  BACKUP_PATH: /home/contributor/ops-dashboard-backup
+  VPS_PROJECT_PATH: /home/contributor/ops-dashboard-petrolog
+  BACKUP_PATH: /home/contributor/ops-dashboard-petrolog-backup
 
 jobs:
   # ===========================================================================
@@ -57,14 +57,15 @@ jobs:
           VITE_P2H_API_KEY: ${{ secrets.VITE_P2H_API_KEY }}
         run: |
           set -e
-          mkdir -p ${{ env.VPS_PROJECT_PATH }}
-
-          echo "Force removing old container..."
-          docker rm -f ops-dashboard-petrolog-ops-dashboard 2>/dev/null || true
 
           echo "Creating backup..."
           rm -rf ${{ env.BACKUP_PATH }}
           cp -r ${{ env.VPS_PROJECT_PATH }} ${{ env.BACKUP_PATH }} 2>/dev/null || true
+
+          echo "Stopping old containers..."
+          cd ${{ env.VPS_PROJECT_PATH }}
+          docker compose down --remove-orphans 2>/dev/null || true
+          docker rm -f ops-dashboard ops-dashboard-petrolog-ops-dashboard 2>/dev/null || true
 
           echo "Cleaning old files..."
           find ${{ env.VPS_PROJECT_PATH }} -mindepth 1 -maxdepth 1 \
@@ -88,16 +89,7 @@ jobs:
 
           echo "Deploying..."
           cd ${{ env.VPS_PROJECT_PATH }}
-          docker compose up -d --build || {
-            echo "Deploy failed"
-            echo "Rollback started..."
-            docker rm -f ops-dashboard-petrolog-ops-dashboard 2>/dev/null || true
-            rm -rf ${{ env.VPS_PROJECT_PATH }}
-            cp -r ${{ env.BACKUP_PATH }} ${{ env.VPS_PROJECT_PATH }}
-            cd ${{ env.VPS_PROJECT_PATH }}
-            docker compose up -d --build
-            exit 1
-          }
+          docker compose up -d --build
 
           docker image prune -f
 

@@ -55,7 +55,7 @@ function getBehaviourInfo(behaviour: string) {
 export default function MapView() {
   const units = useCommandCenterStore((s) => s.units);
   const selectUnit = useCommandCenterStore((s) => s.selectUnit);
-  const selectedUnitId = useCommandCenterStore((s) => s.selectedUnitId);
+  // const selectedUnitId = useCommandCenterStore((s) => s.selectedUnitId);
 
   return (
     <div className="w-full h-full rounded-2xl overflow-hidden border border-slate-200 shadow-lg relative">

@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
 
     ports:
-      - "3001:80"
+      - "3010:80"
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80"]

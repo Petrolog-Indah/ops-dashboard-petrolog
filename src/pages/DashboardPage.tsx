@@ -1,13 +1,14 @@
 import React, { useMemo, useEffect } from 'react';
 import { DashboardHeader } from '../widgets/header/Header';
 import { KpiGrid } from '../widgets/kpiGrid/KpiGrid';
-import { DashboardFilters, DASHBOARD_FILTERS, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
+import { DashboardFilters, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
 import { DASHBOARD_KPI_DATA, DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
 import { getStatsMapping } from '../shared/data/stats';
 import { useKpiStore } from '../entities/store/useKpiStore';
 import { POLLING_CONFIG } from '../shared/config/polling';
 import { AnimatePresence, motion } from 'framer-motion';
+import { DASHBOARD_FILTERS } from '../widgets/dashboardFilters/dashboardFilter.constants';
 
 const DashboardPage: React.FC = () => {
   // Ambil state dan actions dari Zustand store

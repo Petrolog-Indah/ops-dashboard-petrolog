@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider, useAuth } from '../contexts/AuthContext'
+import { AuthProvider } from '../contexts/AuthProvider'
+import { useAuth } from '../contexts/useAuth'
 import { LoginPage } from '../pages/LoginPage'
 import NewDashboardPage from '../pages/NewDashboardPage'
 import CommandCenterOverview from '../pages/CommandCenterOverview'

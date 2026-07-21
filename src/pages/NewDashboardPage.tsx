@@ -1,8 +1,8 @@
 import React, { useMemo, useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/useAuth';
 import { DashboardHeader } from '../widgets/header/Header';
 import { NewKpiGrid } from '../widgets/kpiGrid/NewKpiGrid';
-import { DASHBOARD_FILTERS, DashboardFilters, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
+import { DashboardFilters, type FilterType } from '../widgets/dashboardFilters/DashboardFilters';
 import { VisibilitySidebar } from '../widgets/visibilitySidebar/VisibilitySidebar';
 import { DETAILED_KPI_DATA } from '../entities/kpi';
 import type { KpiItem } from '../entities/kpi';
@@ -11,6 +11,7 @@ import { useKpiStore } from '../entities/store/useKpiStore';
 import { useCardVisibility } from '../entities/store/useCardVisibility';
 import { POLLING_CONFIG } from '../shared/config/polling';
 import { AnimatePresence, motion } from 'framer-motion';
+import { DASHBOARD_FILTERS } from '../widgets/dashboardFilters/dashboardFilter.constants';
 
 const NewDashboardPage: React.FC = () => {
   const { isAuthenticated } = useAuth();

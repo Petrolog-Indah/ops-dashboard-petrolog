@@ -11,15 +11,16 @@ export function useAvailability(pollingInterval = POLLING_CONFIG.DEFAULT_INTERVA
   const loadStats = useCallback(async () => {
     const now = new Date();
 
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    // Daily range for P2H/TBM compliance
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
     const formatDate = (date: Date) => {
         return date.toISOString().split('T')[0];
     };
 
     try {
-      const data = await fetchP2HComplianceNew(formatDate(startOfMonth), formatDate(endOfMonth));
+      const data = await fetchP2HComplianceNew(formatDate(today), formatDate(tomorrow));
       setStats(data);
       setError(null);
     } catch (err) {

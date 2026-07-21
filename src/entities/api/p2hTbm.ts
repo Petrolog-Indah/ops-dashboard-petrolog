@@ -41,12 +41,14 @@ export async function fetchP2HCompliance(month: number, year: number): Promise<P
     const totalBase   = uniqueStaff > 0 ? uniqueStaff : totalRecords;
 
     return {
-        period:         raw.period,
-        count:          totalRecords,
-        p2h_percentage: totalRecords > 0 ? Math.round((p2hChecked / totalRecords) * 100) : 0,
-        tbm_percentage: totalRecords > 0 ? Math.round((tbmChecked / totalRecords) * 100) : 0,
-        p2h_checked:    p2hChecked,
-        tbm_checked:    tbmChecked,
-        total_staff:    totalBase,
+        period:          raw.period,
+        p2h_percentage:  totalRecords > 0 ? Math.round((p2hChecked / totalRecords) * 100) : 0,
+        p2h_with_p2h:    p2hChecked,
+        p2h_total_onjob: totalRecords,
+        tbm_percentage:  totalRecords > 0 ? Math.round((tbmChecked / totalRecords) * 100) : 0,
+        tbm_with_photo:  tbmChecked,
+        tbm_total_hadir: totalRecords,
+        total_staff:     totalBase,
     };
 }
+

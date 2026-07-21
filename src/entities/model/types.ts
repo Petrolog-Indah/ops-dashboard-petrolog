@@ -117,10 +117,11 @@ export interface P2HToolboxCompliance {
     start: string;
     end: string;
   };
-  count: number;
   p2h_percentage: number;   
+  p2h_with_p2h: number;
+  p2h_total_onjob: number;
   tbm_percentage: number;   
-  p2h_checked: number;      
-  tbm_checked: number;     
+  tbm_with_photo: number;
+  tbm_total_hadir: number;
   total_staff: number;    
 }

@@ -48,8 +48,8 @@ export default function CategoryDetailPage() {
     .filter((item) => item.category === category)
     .map((item) => {
       const statsMapping: Record<string, { value: number; subLabel?: string }> = {
-        'P2H Compliance': { value: 87, subLabel: '87%' },
-        'TBM Compliance': { value: 92, subLabel: '92%' },
+        'P2H Compliance': { value: 45, subLabel: '9 / 20 Checked' },
+        'TBM Compliance': { value: 56, subLabel: '103 / 183 Checked' },
         'Unit Valid License': { value: 95, subLabel: '95%' },
         'CCTV Online': { value: 88, subLabel: '88%' },
         'Dashcam Installed': { value: 78, subLabel: '78%' },

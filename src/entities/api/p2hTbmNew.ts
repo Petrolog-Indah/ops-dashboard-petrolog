@@ -9,6 +9,7 @@ export async function fetchP2HComplianceNew( start: string, end: string ): Promi
     });
     
     const response = await fetch(`${BASE_URL}/api/daily-activity/stats?${params.toString()}`);
+    console.log(response)
     if (!response.ok) {
         throw new Error('Failed to fetch P2H and TBM compliance');
     }

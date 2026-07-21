@@ -66,6 +66,10 @@ const now = new Date();
 const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
+// Daily range for P2H/TBM compliance
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
 const formatDate = (date: Date) => {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 };
@@ -127,7 +131,7 @@ export const useKpiStore = create<KpiState>((set, get) => ({
         fetchSpeedCompliance(),
         fetchDashcam(),
         // fetchP2HCompliance(new Date().getMonth() + 1, new Date().getFullYear()),
-        fetchP2HComplianceNew(formatDate(startOfMonth), formatDate(endOfMonth))
+        fetchP2HComplianceNew(formatDate(today), formatDate(tomorrow))
       ]);
 
       set({

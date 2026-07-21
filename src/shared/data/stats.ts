@@ -133,17 +133,17 @@ export const getStatsMapping = (
         {
             condition: !!p2hTbmCompliance,
             label: 'P2H Compliance',
-            value: p2hTbmCompliance ? p2hTbmCompliance.p2h_percentage : 0,
+            value: p2hTbmCompliance ? Math.round(p2hTbmCompliance.p2h_percentage) : 0,
             subLabel: p2hTbmCompliance
-                ? `${p2hTbmCompliance.p2h_checked} / ${p2hTbmCompliance.count} Checked`
+                ? `${p2hTbmCompliance.p2h_with_p2h} / ${p2hTbmCompliance.p2h_total_onjob} Checked`
                 : '',
         },
         {
             condition: !!p2hTbmCompliance,
             label: 'TBM Compliance',
-            value: p2hTbmCompliance ? p2hTbmCompliance.tbm_percentage : 0,
+            value: p2hTbmCompliance ? Math.round(p2hTbmCompliance.tbm_percentage) : 0,
             subLabel: p2hTbmCompliance
-                ? `${p2hTbmCompliance.tbm_checked} / ${p2hTbmCompliance.count} Checked`
+                ? `${p2hTbmCompliance.tbm_with_photo} / ${p2hTbmCompliance.tbm_total_hadir} Checked`
                 : '',
         },
 

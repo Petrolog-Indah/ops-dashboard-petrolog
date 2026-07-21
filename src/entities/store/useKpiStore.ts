@@ -63,9 +63,6 @@ const currentMonthName = monthName[new Date().getMonth()];
 
 const now = new Date();
 
-const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
 // Daily range for P2H/TBM compliance
 const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);

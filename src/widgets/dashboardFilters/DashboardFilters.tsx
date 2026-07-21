@@ -1,20 +1,13 @@
 import React from 'react';
 import type { KpiItem } from '../../entities/kpi';
 import { motion } from 'framer-motion';
+import { DASHBOARD_FILTERS } from './dashboardFilter.constants';
 export type FilterType = KpiItem['category'] | 'ALL';
 
 interface DashboardFiltersProps {
   activeFilter: FilterType;
   onFilterChange: (filter: FilterType) => void;
 }
-
-export const DASHBOARD_FILTERS: { label: string; value: FilterType }[] = [
-  { label: 'All Data', value: 'ALL' },
-  { label: 'SOP', value: 'SOP' },
-  { label: 'QHSE', value: 'QHSE' },
-  { label: 'Performance Effectiveness', value: 'Performance Effectiveness' },
-  { label: 'Efficiency & Productivity', value: 'Efficiency & Productivity' },
-];
 
 export const DashboardFilters: React.FC<DashboardFiltersProps> = ({ 
   activeFilter, 
